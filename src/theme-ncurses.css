@@ -1,0 +1,150 @@
+/* NCURSES / Turbo Pascal Visual Theme */
+:root {
+    --pascal-blue: #0000aa;
+    --pascal-yellow: #ffff55;
+    --pascal-white: #ffffff;
+    --pascal-gray: #aaaaaa;
+    --pascal-black: #000000;
+    --pascal-cyan: #00aaaa;
+
+    --win-gray: var(--pascal-blue);
+    --win-white: var(--pascal-white);
+    --win-shadow-dark: var(--pascal-black);
+    --win-shadow-light: var(--pascal-gray);
+    --win-blue: var(--pascal-cyan);
+    --win-text: var(--pascal-white);
+}
+
+body.ncurses-bg {
+    background-color: var(--pascal-black);
+    font-family: "Courier New", Courier, monospace !important;
+}
+
+* {
+    font-family: "Courier New", Courier, monospace !important;
+    -webkit-font-smoothing: none;
+}
+
+.win95-window {
+    background-color: var(--pascal-blue);
+    border: 2px solid var(--pascal-white);
+    box-shadow: 10px 10px 0 var(--pascal-black);
+    padding: 2px;
+}
+
+.title-bar {
+    background-color: var(--pascal-cyan);
+    color: var(--pascal-white);
+    border: 1px solid var(--pascal-white);
+    justify-content: center;
+    height: 20px;
+}
+
+.title-bar-text {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.title-bar-controls {
+    display: none; /* Text mode apps usually don't have these buttons */
+}
+
+.menu-bar {
+    background-color: var(--pascal-gray);
+    color: var(--pascal-black);
+    border-bottom: 1px solid var(--pascal-black);
+}
+
+.menu-item {
+    color: var(--pascal-black);
+}
+
+.menu-item:hover {
+    background-color: var(--pascal-black);
+    color: var(--pascal-white);
+}
+
+.dropdown, .side-dropdown {
+    background-color: var(--pascal-gray);
+    border: 1px solid var(--pascal-black);
+    box-shadow: 5px 5px 0 var(--pascal-black);
+}
+
+.menu-sub-item {
+    color: var(--pascal-black);
+}
+
+.menu-sub-item:hover {
+    background-color: var(--pascal-black);
+    color: var(--pascal-white);
+}
+
+.toolbar-container {
+    background-color: var(--pascal-blue);
+    border-right: 1px solid var(--pascal-white);
+}
+
+.tool-btn {
+    background-color: var(--pascal-blue);
+    border: 1px solid var(--pascal-white);
+    color: var(--pascal-white);
+}
+
+.tool-btn.active {
+    background-color: var(--pascal-yellow);
+    color: var(--pascal-black);
+    border-color: var(--pascal-black);
+}
+
+.tool-btn .icon-svg {
+    filter: invert(1);
+}
+
+.tool-btn.active .icon-svg {
+    filter: none;
+}
+
+.canvas-container {
+    border: 1px solid var(--pascal-white);
+}
+
+.palette-tab {
+    background-color: var(--pascal-blue);
+    color: var(--pascal-white);
+    border: 1px solid var(--pascal-white);
+}
+
+.palette-tab.active {
+    background-color: var(--pascal-cyan);
+}
+
+.palette-display {
+    background-color: var(--pascal-blue);
+    border: 1px solid var(--pascal-white);
+}
+
+.status-bar {
+    background-color: var(--pascal-cyan);
+    color: var(--pascal-white);
+    border-top: 1px solid var(--pascal-white);
+}
+
+.status-field {
+    border-right: 1px solid var(--pascal-white);
+}
+
+/* Modal styling for NCURSES */
+.modal-window {
+    background-color: var(--pascal-blue) !important;
+    border: 2px solid var(--pascal-white) !important;
+}
+
+.modal-content {
+    color: var(--pascal-white);
+}
+
+.modal-buttons button {
+    background-color: var(--pascal-gray);
+    color: var(--pascal-black);
+    border: 1px solid var(--pascal-black);
+}

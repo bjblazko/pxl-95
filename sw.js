@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pxl95-v4'; // Bump version
+const CACHE_NAME = 'pxl95-v5'; // Bump version
 const ASSETS = [
   './',
   './index.html',
@@ -9,6 +9,8 @@ const ASSETS = [
   './src/theme-haiku.css',
   './src/theme-macos8.css',
   './src/theme-motif.css',
+  './src/theme-amiga.css',
+  './src/theme-ncurses.css',
   './manifest.json'
 ];
 

@@ -59,6 +59,8 @@ PXL-95 is a **Progressive Web App**, meaning you can install it directly onto yo
 
 ## 🎨 Themes & Credits
 PXL-95 features multiple "Look and Feel" options inspired by historic operating systems:
+- **AmigaOS 3.1**: Features the classic dark blue and orange Workbench aesthetic with custom gadgets.
+- **NCURSES (Turbo Pascal)**: A text-mode tribute with high-contrast blue backgrounds and monospace typography.
 - **MacOS 8 (Platinum)**: Features the iconic Apple global menu bar and "Platinum" UI aesthetic.
 - **Motif (CDE)**: A tribute to the chunky Unix workstation look with deep 3D bevels and purple-gray tones.
 - **Windows 95**: Inspired by Microsoft's classic design.

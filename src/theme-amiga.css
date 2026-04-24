@@ -1,0 +1,146 @@
+/* AmigaOS 3.1 Workbench Visual Theme */
+:root {
+    --amiga-blue: #0044aa;
+    --amiga-orange: #ff8800;
+    --amiga-gray: #aaaaaa;
+    --amiga-white: #ffffff;
+    --amiga-black: #000000;
+    
+    --win-gray: var(--amiga-gray);
+    --win-white: var(--amiga-white);
+    --win-shadow-dark: var(--amiga-black);
+    --win-shadow-light: #666666;
+    --win-blue: var(--amiga-blue);
+    --win-text: var(--amiga-black);
+}
+
+body.amiga-bg {
+    background-color: #557799; /* workbench default gray-blue */
+}
+
+.win95-window {
+    border: 2px solid var(--amiga-black);
+    background-color: var(--amiga-gray);
+    box-shadow: 2px 2px 0 var(--amiga-black);
+}
+
+/* Amiga Title Bar */
+.title-bar {
+    background-color: var(--amiga-gray);
+    border-bottom: 2px solid var(--amiga-black);
+    color: var(--amiga-blue);
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+    height: 22px;
+    padding: 2px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-bar-text {
+    color: var(--amiga-blue);
+}
+
+/* Amiga Close Gadget (Left) and Depth Gadget (Right) */
+.title-bar-controls {
+    display: contents;
+}
+
+.title-bar-controls button[aria-label="Close"] {
+    order: -1;
+    width: 20px;
+    height: 16px;
+    background: var(--amiga-gray);
+    border: 1px solid var(--amiga-black);
+    position: relative;
+    margin-right: 10px;
+}
+
+.title-bar-controls button[aria-label="Close"]::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 8px;
+    border: 1px solid var(--amiga-black);
+}
+
+.title-bar-controls button[aria-label="Maximize"] {
+    width: 20px;
+    height: 16px;
+    background: var(--amiga-gray);
+    border: 1px solid var(--amiga-black);
+    position: relative;
+}
+
+.title-bar-controls button[aria-label="Maximize"]::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 6px;
+    border: 1px solid var(--amiga-black);
+    border-top: 3px solid var(--amiga-black);
+}
+
+.title-bar-controls button[aria-label="Minimize"] {
+    display: none;
+}
+
+.menu-bar {
+    background-color: var(--amiga-white);
+    border-bottom: 1px solid var(--amiga-black);
+}
+
+.menu-item:hover {
+    background-color: var(--amiga-blue);
+    color: var(--amiga-white);
+}
+
+.dropdown, .side-dropdown {
+    background-color: var(--amiga-white);
+    border: 1px solid var(--amiga-black);
+    box-shadow: 2px 2px 0 var(--amiga-black);
+}
+
+.menu-sub-item:hover {
+    background-color: var(--amiga-blue);
+    color: var(--amiga-white);
+}
+
+.toolbar-container {
+    background-color: var(--amiga-gray);
+    border-right: 1px solid var(--amiga-black);
+}
+
+.tool-btn {
+    border: 1px solid var(--amiga-black);
+    background-color: var(--amiga-gray);
+    margin-bottom: 1px;
+}
+
+.tool-btn.active {
+    background-color: var(--amiga-white);
+    border-style: inset;
+}
+
+.inset-field {
+    border: 1px solid var(--amiga-black);
+}
+
+.status-bar {
+    background-color: var(--amiga-gray);
+    border-top: 1px solid var(--amiga-black);
+}
+
+.palette-tab {
+    border: 1px solid var(--amiga-black);
+    background-color: var(--amiga-gray);
+}
+
+.palette-tab.active {
+    background-color: var(--amiga-white);
+    border-bottom: none;
+}
