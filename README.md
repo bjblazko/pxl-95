@@ -16,14 +16,11 @@
 ## ✨ Features
 
 - **Dual-Layer Canvas**: Crystal-clear pixel rendering on the bottom layer with a dynamic UI overlay (grid/cursor) on the top.
-- **Classic Toolset**:
-  - ✏️ **Pen**: Fine-grained pixel editing.
-  - 🧼 **Eraser**: Transparency-aware erasing.
-  - 🪣 **Flood Fill**: Efficient stack-based seed fill for large areas.
-  - 📏 **Line Tool**: Bresenham’s algorithm for perfect pixel diagonals.
+- **Classic Toolset**: Pen, Eraser, Flood Fill, Line Tool, and Rectangle Tool.
+- **Precision Zoom**: Work at 1x scale or zoom up to 32x.
+- **Undo/Redo**: 10-step action history to safely experiment with your art.
 - **Retro Palettes**: Toggle between the iconic **16-color CGA** and **256-color VGA** palettes.
-- **Precision Zoom**: Work at 1x scale or zoom up to 32x. A pixel grid automatically appears at zoom levels > 4x.
-- **Auto-Persistence**: Your artwork is automatically saved to your browser's local storage—it survives refreshes and crashes.
+- **Auto-Persistence**: Your artwork, canvas size, and theme are automatically saved to your browser's local storage.
 - **PNG Export**: Save your creations as high-quality PNG files.
 
 ---
@@ -32,34 +29,25 @@
 
 PXL-95 is a **Progressive Web App**, meaning you can install it directly onto your desktop or mobile device and use it **completely offline**.
 
-### On Desktop (Chrome/Edge):
-1. Navigate to the PXL-95 URL.
-2. Look for the **"Install" icon** (a small computer screen with an arrow) in the right side of the address bar.
-3. Click **Install**. PXL-95 will now appear in your applications list and run in its own window without browser tabs.
-
-### On Mobile (iOS/Safari):
-1. Open the URL in Safari.
-2. Tap the **Share** button (square with an up arrow).
-3. Scroll down and tap **"Add to Home Screen."**
-
 ---
 
 ## 🚀 How to Use
 
 ### Basic Interaction
 - **Left Click**: Paint with your **Primary Color**.
-- **Right Click**: Paint with your **Secondary Color** (or pick colors from the palette).
-- **Tool Switching**: Click the icons on the left toolbar or use the Status Bar to confirm your active tool.
+- **Right Click**: Paint with your **Secondary Color**.
+- **Undo**: `Ctrl/Cmd + Z`
+- **Redo**: `Ctrl/Cmd + Y` or `Ctrl/Cmd + Shift + Z`
 
 ### Managing Colors
 - The **Palette** is located at the bottom.
 - **Left Click** a swatch to set your Primary Color.
 - **Right Click** a swatch to set your Secondary Color.
-- Switch between **CGA** and **VGA** tabs for different color sets.
 
-### File Actions
-- **Menu Bar**: Click **File** to clear the canvas.
-- **Export**: Click the **Export** button in the menu bar to download your work as a `.png`.
+### Menu Actions
+- **File**: Create a **New** image with custom dimensions, **Open** a local image (PNG/JPG), or **Save** as PNG.
+- **Edit**: Perform **Undo** or **Redo**.
+- **View**: Set **Zoom** levels or change the **Look and feel** (Themes).
 
 ---
 

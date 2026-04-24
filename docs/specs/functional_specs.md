@@ -77,11 +77,30 @@ This document outlines the behavior and technical requirements of PXL-95 using B
 
 ### 4.3 Image Export
 **Given** an artwork is present on the canvas  
-**When** the user selects the "Export" menu item  
-**Then** the browser must trigger a download of a file named `pxl95-artwork.png`  
-**And** the image must contain only the pixel data from the lower canvas (without the grid or cursor).
+**When** the user selects the "Save" menu item  
+**Then** the browser must trigger a download of a file named `pxl95-artwork.png`.
 
-## 5. PWA (Progressive Web App)
+## 5. History & State
+
+### 5.1 Undo Action
+**Given** the user has performed a painting action  
+**When** the user presses `Ctrl+Z` or selects "Undo" from the Edit menu  
+**Then** the pixel data buffer must revert to the state exactly before the last action.
+
+### 5.2 Redo Action
+**Given** the user has performed an Undo action  
+**When** the user presses `Ctrl+Y` or selects "Redo" from the Edit menu  
+**Then** the pixel data buffer must re-apply the action that was undone.
+
+## 6. Theme Engine
+
+### 6.1 Theme Switching
+**Given** the "Windows 95" theme is active  
+**When** the user selects "Windows 3.1" from the Look and feel menu  
+**Then** the application stylesheet must change to `theme-win31.css`  
+**And** the UI must immediately reflect the high-contrast aesthetic without a page reload.
+
+## 7. PWA (Progressive Web App)
 
 ### 5.1 Offline Availability
 **Given** the Service Worker is registered and assets are cached  
