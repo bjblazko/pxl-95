@@ -1,3 +1,4 @@
+/* Windows 3.1 Visual Theme */
 :root {
     --win-gray: #c0c0c0;
     --win-white: #ffffff;
@@ -9,23 +10,21 @@
 
 body.win31-bg {
     background-color: #000000;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .win95-window {
     border: 1px solid black;
-    box-shadow: none;
+    padding: 2px;
 }
 
+/* Win 3.1 title bars had centered text and buttons on far sides */
 .title-bar {
     background: #000080;
     color: white;
-    text-align: center;
     justify-content: center;
-    border-bottom: 1px solid black;
+    border: 1px solid black;
+    height: 18px;
+    position: relative;
 }
 
 .title-bar-text {
@@ -36,6 +35,29 @@ body.win31-bg {
 .title-bar-controls {
     position: absolute;
     right: 2px;
+    top: 1px;
+}
+
+/* In Win 3.1, the "Close" button was actually a dash on the left */
+.title-bar::before {
+    content: "–";
+    position: absolute;
+    left: 2px;
+    top: 1px;
+    width: 14px;
+    height: 14px;
+    background: #c0c0c0;
+    border: 1px solid black;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.title-bar-controls button {
+    background-color: var(--win-gray);
+    border: 1px solid black;
 }
 
 .menu-bar {
@@ -43,30 +65,74 @@ body.win31-bg {
     border-bottom: 1px solid black;
 }
 
-.menu-item {
-    color: black;
-}
-
 .menu-item:hover {
     background: #000080;
     color: white;
 }
 
+.dropdown {
+    background: white;
+    border: 1px solid black;
+}
+
+.side-dropdown {
+    background: white;
+    border: 1px solid black;
+}
+
 .toolbar-container {
     background: #c0c0c0;
+    border-right: 1px solid black;
 }
 
 .tool-btn {
     border: 1px solid black;
     background: white;
+    margin-bottom: 1px;
 }
 
 .tool-btn.active {
-    background: #c0c0c0;
+    background: #808080;
+    color: white;
+}
+
+.inset-field {
     border: 1px solid black;
+}
+
+.canvas-container {
+    border: 1px solid black;
+}
+
+.palette-tab {
+    border: 1px solid black;
+    background: white;
+}
+
+.palette-tab.active {
+    background: #c0c0c0;
+}
+
+.palette-display {
+    border: 1px solid black;
+    background: white;
 }
 
 .status-bar {
     background: #c0c0c0;
     border-top: 1px solid black;
+}
+
+.status-field {
+    border: 1px solid black;
+}
+
+/* Buttons in dialogs */
+.modal-buttons button {
+    background: white;
+    border: 1px solid black;
+}
+
+.modal-buttons button:active {
+    background: #808080;
 }

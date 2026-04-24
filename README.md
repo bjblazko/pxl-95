@@ -63,11 +63,16 @@ PXL-95 is a **Progressive Web App**, meaning you can install it directly onto yo
 
 ---
 
-## 🛠️ Tech Stack
-- **HTML5 Canvas API** (Layered architecture)
-- **Vanilla ES6+ JavaScript** (No frameworks)
-- **CSS Flexbox & Grid** (Retro Win95 Design System)
-- **Service Workers** (For offline support)
+## 🎨 Themes & Credits
+PXL-95 features multiple "Look and Feel" options inspired by historic operating systems:
+- **Windows 95**: Inspired by Microsoft's classic design.
+- **Windows 3.1**: A tribute to the high-contrast era of 16-bit computing.
+- **Haiku / BeOS**: Inspired by the BeOS "Yellow Tab" and light-gray aesthetics.
+
+**Credits:**
+- **Author**: Timo Böwing ([huepattl.de](https://huepattl.de))
+- **Implementation**: Built in collaboration with **Gemini AI**.
+- **Resources**: All icons are custom-built inline SVGs or local assets to ensure zero-CDN dependency and complete offline functionality.
 
 ---
 

@@ -1,0 +1,101 @@
+/* Haiku / BeOS Visual Theme */
+:root {
+    --win-gray: #e8e8e8;
+    --win-white: #ffffff;
+    --win-shadow-dark: #ababab;
+    --win-shadow-light: #dcdcdc;
+    --win-blue: #336698;
+    --win-text: #000000;
+    --haiku-yellow: #ffda00;
+}
+
+body.haiku-bg {
+    background-color: #336698; /* Classic blue desktop */
+}
+
+.win95-window {
+    border: 1px solid #777;
+    background-color: var(--win-gray);
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Haiku's famous yellow tab title bar */
+.title-bar {
+    background: var(--haiku-yellow);
+    color: black;
+    border: 1px solid #777;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    width: auto;
+    display: inline-flex;
+    margin-top: -21px; /* Pop up above the window */
+    margin-left: 10px;
+    height: 20px;
+    padding: 0 10px;
+    position: relative;
+    z-index: 10;
+}
+
+.title-bar-text {
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* Align controls inside the tab */
+.title-bar-controls {
+    margin-left: 10px;
+}
+
+.title-bar-controls button {
+    background: transparent;
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin: 0 2px;
+}
+
+.menu-bar {
+    background: var(--win-gray);
+    border-bottom: 1px solid #ababab;
+}
+
+.menu-item:hover {
+    background: #336698;
+    color: white;
+}
+
+.dropdown {
+    background: var(--win-gray);
+    border: 1px solid #777;
+}
+
+.toolbar-container {
+    background: #f0f0f0;
+    border-right: 1px solid #ababab;
+}
+
+.tool-btn {
+    border-radius: 3px;
+    border: 1px solid #ababab;
+    background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+}
+
+.tool-btn.active {
+    background: #336698;
+    border-color: #000;
+}
+
+.tool-btn.active .icon-svg {
+    filter: invert(1);
+}
+
+.inset-field {
+    border: 1px solid #ababab;
+    background: white;
+}
+
+.status-bar {
+    background: var(--win-gray);
+    border-top: 1px solid #ababab;
+}

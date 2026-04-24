@@ -31,6 +31,12 @@ body {
     display: flex;
     flex-direction: column;
     background-color: var(--win-gray);
+    position: relative;
+}
+
+.modal-window {
+    width: 300px !important;
+    height: auto !important;
 }
 
 .title-bar {
