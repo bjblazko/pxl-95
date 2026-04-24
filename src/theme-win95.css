@@ -1,0 +1,129 @@
+/* Windows 95 Visual Theme */
+:root {
+    --win-gray: #c0c0c0;
+    --win-white: #ffffff;
+    --win-shadow-dark: #404040;
+    --win-shadow-light: #808080;
+    --win-blue: #000080;
+    --win-text: #000000;
+}
+
+body.win95-bg {
+    background-color: #008080; /* Teal wallpaper */
+}
+
+.win95-window {
+    border: 2px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+    box-shadow: 1px 1px 0 0 var(--win-shadow-light) inset, -1px -1px 0 0 var(--win-shadow-light) inset;
+}
+
+.title-bar {
+    background: linear-gradient(90deg, var(--win-blue), #1084d0);
+    color: white;
+    font-weight: bold;
+}
+
+.title-bar-controls button {
+    background-color: var(--win-gray);
+    border: 1px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+}
+
+.menu-bar {
+    border-bottom: 1px solid var(--win-shadow-light);
+    background-color: var(--win-gray);
+}
+
+.menu-item-container:hover .menu-item {
+    background-color: var(--win-blue);
+    color: white;
+}
+
+.dropdown {
+    background-color: var(--win-gray);
+    border: 2px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+}
+
+.menu-sub-item:hover {
+    background-color: var(--win-blue);
+    color: white;
+}
+
+.side-dropdown {
+    background-color: var(--win-gray);
+    border: 2px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+}
+
+.toolbar-container {
+    border-right: 1px solid var(--win-shadow-light);
+}
+
+.tool-btn {
+    background-color: var(--win-gray);
+    border: 2px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+}
+
+.tool-btn:active, .tool-btn.active {
+    border-color: var(--win-shadow-dark) var(--win-white) var(--win-white) var(--win-shadow-dark);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-size: 2px 2px;
+}
+
+.inset-field {
+    border: 2px solid;
+    border-color: var(--win-shadow-light) var(--win-white) var(--win-white) var(--win-shadow-light);
+}
+
+.canvas-container {
+    border: 1px solid #808080;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.palette-tab {
+    background: var(--win-gray);
+    border: 1px solid;
+    border-bottom: none;
+    border-color: var(--win-white) var(--win-shadow-dark) transparent var(--win-white);
+}
+
+.palette-tab.active {
+    font-weight: bold;
+    margin-top: -1px;
+}
+
+.palette-display {
+    background: var(--win-gray);
+    border: 2px solid;
+    border-color: var(--win-shadow-light) var(--win-white) var(--win-white) var(--win-shadow-light);
+}
+
+.color-indicator {
+    border: 1px solid var(--win-shadow-dark);
+}
+
+.status-bar {
+    border-top: 1px solid var(--win-shadow-light);
+}
+
+.status-field {
+    border: 1px solid;
+    border-color: var(--win-shadow-light) var(--win-white) var(--win-white) var(--win-shadow-light);
+}
+
+.modal-buttons button {
+    background: var(--win-gray);
+    border: 2px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+}
+
+.modal-buttons button:active {
+    border-color: var(--win-shadow-dark) var(--win-white) var(--win-white) var(--win-shadow-dark);
+}
+
+.about-body {
+    background-color: var(--win-gray);
+}

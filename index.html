@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PXL-95 - Retro Pixel Editor</title>
-    <link id="theme-link" rel="stylesheet" href="src/style.css">
+    <!-- Core Layout (Always Loaded) -->
+    <link rel="stylesheet" href="src/layout.css">
+    <!-- Theme (Swappable) -->
+    <link id="theme-link" rel="stylesheet" href="src/theme-win95.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body class="win95-bg" id="app-body">
     <div class="win95-window main-window">
         <div class="title-bar">
             <div class="title-bar-text">
-                <img src="https://win95icons.com/favicon.ico" alt="icon" class="title-icon">
                 PXL-95 - Untitled
             </div>
             <div class="title-bar-controls">
@@ -70,37 +72,37 @@
                 <div class="toolbar" id="toolbar">
                     <button class="tool-btn active" data-tool="pen" title="Pen (P)">
                         <svg class="icon-svg" viewBox="0 0 16 16">
-                            <rect x="2" y="10" width="4" height="4" fill="#FFC0CB" stroke="black" stroke-width="0.5"/> <!-- Eraser end -->
-                            <rect x="5" y="5" width="6" height="6" fill="#FFFF00" stroke="black" stroke-width="0.5" transform="rotate(-45 8 8)"/> <!-- Pencil body -->
-                            <path d="M12 2 L14 4 L11 7 L9 5 Z" fill="#000" /> <!-- Tip -->
+                            <rect x="2" y="10" width="4" height="4" fill="#FFC0CB" stroke="black" stroke-width="0.5"/>
+                            <rect x="5" y="5" width="6" height="6" fill="#FFFF00" stroke="black" stroke-width="0.5" transform="rotate(-45 8 8)"/>
+                            <path d="M12 2 L14 4 L11 7 L9 5 Z" fill="#000" />
                         </svg>
                     </button>
                     <button class="tool-btn" data-tool="eraser" title="Eraser (E)">
                         <svg class="icon-svg" viewBox="0 0 16 16">
                             <rect x="2" y="4" width="12" height="8" fill="#FF69B4" stroke="black" />
-                            <rect x="3" y="5" width="10" height="2" fill="#FFC0CB" /> <!-- Highlight -->
+                            <rect x="3" y="5" width="10" height="2" fill="#FFC0CB" />
                         </svg>
                     </button>
                     <button class="tool-btn" data-tool="bucket" title="Flood Fill (B)">
                         <svg class="icon-svg" viewBox="0 0 16 16">
-                            <path d="M4 6 L10 2 L14 6 L8 10 Z" fill="#0000AA" stroke="black" /> <!-- Bucket -->
-                            <path d="M2 12 Q4 10 6 12 T10 12" fill="none" stroke="#5555FF" stroke-width="1.5" /> <!-- Spilling paint -->
+                            <path d="M4 6 L10 2 L14 6 L8 10 Z" fill="#0000AA" stroke="black" />
+                            <path d="M2 12 Q4 10 6 12 T10 12" fill="none" stroke="#5555FF" stroke-width="1.5" />
                         </svg>
                     </button>
                     <button class="tool-btn" data-tool="line" title="Line Tool (L)">
                         <svg class="icon-svg" viewBox="0 0 16 16">
                             <line x1="2" y1="14" x2="14" y2="2" stroke="black" stroke-width="1.5" />
-                            <line x1="3" y1="15" x2="15" y2="3" stroke="#808080" stroke-width="1" /> <!-- Shadow -->
+                            <line x1="3" y1="15" x2="15" y2="3" stroke="#808080" stroke-width="1" />
                         </svg>
                     </button>
                     <button class="tool-btn" data-tool="rect" title="Rectangle Tool (R)">
                         <svg class="icon-svg" viewBox="0 0 16 16">
                             <rect x="2" y="3" width="12" height="10" fill="none" stroke="black" stroke-width="1.5" />
-                            <rect x="4" y="5" width="8" height="6" fill="#C0C0C0" stroke="#808080" /> <!-- Interior -->
+                            <rect x="4" y="5" width="8" height="6" fill="#C0C0C0" stroke="#808080" />
                         </svg>
                     </button>
                 </div>
-                <div class="tool-options inset-field" id="tool-options">
+                <div class="tool-options" id="tool-options">
                     <div class="rect-option active" data-mode="outline" title="Outline Only">
                         <div class="rect-preview outline"></div>
                     </div>
@@ -110,7 +112,7 @@
                 </div>
             </aside>
 
-            <main class="canvas-area inset-field">
+            <main class="canvas-area">
                 <div class="canvas-container" id="canvas-container">
                     <canvas id="canvas-lower"></canvas>
                     <canvas id="canvas-upper"></canvas>
@@ -129,9 +131,7 @@
                         <div class="color-indicator secondary" id="secondary-color"></div>
                         <div class="color-indicator primary" id="primary-color"></div>
                     </div>
-                    <div class="palette-grid" id="palette-grid">
-                        <!-- Colors injected by JS -->
-                    </div>
+                    <div class="palette-grid" id="palette-grid"></div>
                 </div>
             </div>
 
@@ -192,10 +192,9 @@
             </div>
             <div class="modal-content about-content">
                 <div class="about-header">
-                    <img src="https://win95icons.com/favicon.ico" alt="icon" class="about-icon">
                     <div class="about-title">
                         <strong>PXL-95 Pixel Editor</strong><br>
-                        Version 1.0.0 (2026)
+                        Version 1.1.0 (2026)
                     </div>
                 </div>
                 <div class="about-body inset-field">

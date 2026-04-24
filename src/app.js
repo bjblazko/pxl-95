@@ -216,7 +216,7 @@ class Editor {
 
     applyTheme(theme) {
         this.currentTheme = theme;
-        const themeUrl = (theme === 'win95') ? 'src/style.css' : 'src/theme-win31.css';
+        const themeUrl = `src/theme-${theme}.css`;
         this.themeLink.href = themeUrl;
         this.appBody.className = `${theme}-bg`;
         this.statusMsg.innerText = `Theme applied: ${theme}`;
