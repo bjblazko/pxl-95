@@ -1,0 +1,16 @@
+{
+  "name": "PXL-95",
+  "short_name": "PXL95",
+  "description": "Retro Windows 95 style pixel art editor",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#008080",
+  "theme_color": "#000080",
+  "icons": [
+    {
+      "src": "https://win95icons.com/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ]
+}
