@@ -450,3 +450,43 @@ canvas {
 .modal-buttons button:active {
     border-color: var(--win-shadow-dark) var(--win-white) var(--win-white) var(--win-shadow-dark);
 }
+
+/* About Dialog Specifics */
+.about-window {
+    width: 320px !important;
+}
+
+.about-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.about-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.about-title {
+    line-height: 1.4;
+}
+
+.about-body {
+    padding: 10px;
+    background-color: var(--win-gray);
+    margin-bottom: 10px;
+}
+
+.about-body p {
+    margin-bottom: 6px;
+}
+
+.about-body a {
+    color: var(--win-blue);
+    text-decoration: underline;
+}
+
+.about-body a:hover {
+    color: #1084d0;
+}

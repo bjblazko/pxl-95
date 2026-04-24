@@ -64,6 +64,7 @@ class Editor {
         this.newWidthInput = document.getElementById('new-width');
         this.newHeightInput = document.getElementById('new-height');
         this.modalOkBtn = document.getElementById('modal-ok');
+        this.aboutModal = document.getElementById('about-modal');
     }
 
     initCanvas() {
@@ -74,6 +75,7 @@ class Editor {
     }
 
     initEvents() {
+        // Toolbar Zoom Sync
         this.zoomSelect.addEventListener('change', (e) => {
             this.setZoom(parseInt(e.target.value));
         });
@@ -174,6 +176,11 @@ class Editor {
             this.exportPNG();
         });
 
+        // Help Menu
+        document.getElementById('menu-about').addEventListener('click', () => {
+            this.aboutModal.style.display = 'flex';
+        });
+
         // File Input Handler
         document.getElementById('file-input').addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -232,22 +239,16 @@ class Editor {
     loadImageToCanvas(img) {
         const w = img.naturalWidth;
         const h = img.naturalHeight;
-        
-        // Safety check for very large images in a pixel editor
         if (w > 512 || h > 512) {
             if (!confirm(`This image is ${w}x${h}. Large images may slow down the editor. Continue?`)) return;
         }
-
         this.width = w;
         this.height = h;
         this.initCanvas();
-        
-        // Draw image to offscreen to get its data
         this.offscreenCtx.clearRect(0, 0, w, h);
         this.offscreenCtx.drawImage(img, 0, 0);
         const imageData = this.offscreenCtx.getImageData(0, 0, w, h);
         this.pixelData = imageData.data;
-
         this.updateCanvasSize();
         this.draw();
         this.saveToStorage();
@@ -270,7 +271,7 @@ class Editor {
             this.pixelData[i] = 255;
             this.pixelData[i+1] = 255;
             this.pixelData[i+2] = 255;
-            this.pixelData[i+3] = 255;
+            this.pixelData[i+3] = 255; // Opaque White
         }
     }
 
@@ -346,7 +347,6 @@ class Editor {
         const minY = Math.min(y0, y1);
         const maxY = Math.max(y0, y1);
 
-        // Fill
         if (fillColor) {
             for (let y = minY; y <= maxY; y++) {
                 for (let x = minX; x <= maxX; x++) {
@@ -354,8 +354,6 @@ class Editor {
                 }
             }
         }
-
-        // Outline
         for (let x = minX; x <= maxX; x++) {
             this.setPixel(x, minY, strokeColor);
             this.setPixel(x, maxY, strokeColor);
@@ -443,16 +441,13 @@ class Editor {
             }
             this.upperCtx.stroke();
         }
-
         if (dragInfo) {
             const x = dragInfo.startX * this.zoom;
             const y = dragInfo.startY * this.zoom;
             const w = (cursorX - dragInfo.startX) * this.zoom;
             const h = (cursorY - dragInfo.startY) * this.zoom;
-
             this.upperCtx.strokeStyle = "rgba(0, 0, 0, 0.5)";
             this.upperCtx.lineWidth = 1;
-
             if (this.currentTool === 'line') {
                 this.upperCtx.beginPath();
                 this.upperCtx.moveTo(x + this.zoom/2, y + this.zoom/2);
