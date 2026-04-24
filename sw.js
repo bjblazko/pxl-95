@@ -1,9 +1,10 @@
-const CACHE_NAME = 'pxl95-v1';
+const CACHE_NAME = 'pxl95-v2'; // Bump version
 const ASSETS = [
   './',
   './index.html',
-  './style.css',
-  './app.js',
+  './src/style.css',
+  './src/app.js',
+  './src/theme-win31.css',
   './manifest.json'
 ];
 
