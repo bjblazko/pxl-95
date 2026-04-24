@@ -26,13 +26,15 @@ class Editor {
         this.height = CONFIG.defaultGridSize;
         this.zoom = CONFIG.defaultZoom;
         this.currentTool = 'pen';
-        this.rectMode = 'outline'; // 'outline' or 'fill'
+        this.rectMode = 'outline';
         this.primaryColor = "#000000";
         this.secondaryColor = "#FFFFFF";
         this.currentPalette = 'cga';
+        this.currentTheme = 'win95';
         
         this.initDOM();
         this.loadFromStorage();
+        this.applyTheme(this.currentTheme);
         
         this.initCanvas();
         this.initEvents();
@@ -59,12 +61,14 @@ class Editor {
         this.toolbar = document.getElementById('toolbar');
         this.toolOptions = document.getElementById('tool-options');
 
-        // Modal elements
         this.newModal = document.getElementById('new-modal');
         this.newWidthInput = document.getElementById('new-width');
         this.newHeightInput = document.getElementById('new-height');
         this.modalOkBtn = document.getElementById('modal-ok');
         this.aboutModal = document.getElementById('about-modal');
+        
+        this.themeLink = document.getElementById('theme-link');
+        this.appBody = document.getElementById('app-body');
     }
 
     initCanvas() {
@@ -75,7 +79,6 @@ class Editor {
     }
 
     initEvents() {
-        // Toolbar Zoom Sync
         this.zoomSelect.addEventListener('change', (e) => {
             this.setZoom(parseInt(e.target.value));
         });
@@ -87,13 +90,10 @@ class Editor {
                 btn.classList.add('active');
                 this.currentTool = btn.dataset.tool;
                 this.statusMsg.innerText = `Tool: ${this.currentTool.toUpperCase()}`;
-                
-                // Show/hide options
                 this.toolOptions.style.display = (this.currentTool === 'rect') ? 'flex' : 'none';
             });
         });
 
-        // Rect Options Logic
         document.querySelectorAll('.rect-option').forEach(opt => {
             opt.addEventListener('click', () => {
                 document.querySelector('.rect-option.active').classList.remove('active');
@@ -128,7 +128,6 @@ class Editor {
                     isDrawing = true;
                     startX = x;
                     startY = y;
-                    
                     const color = e.button === 0 ? this.primaryColor : this.secondaryColor;
                     if (this.currentTool === 'bucket') {
                         this.floodFill(x, y, color);
@@ -147,7 +146,6 @@ class Editor {
                 } else if (e.type === 'mouseup' && isDrawing) {
                     const color = e.button === 0 ? this.primaryColor : this.secondaryColor;
                     const altColor = e.button === 0 ? this.secondaryColor : this.primaryColor;
-
                     if (this.currentTool === 'line') {
                         this.drawLine(startX, startY, x, y, color);
                     } else if (this.currentTool === 'rect') {
@@ -165,7 +163,6 @@ class Editor {
         window.addEventListener('mouseup', handleMouse);
         this.upperCanvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
-        // File Menu Actions
         document.getElementById('menu-new').addEventListener('click', () => {
             this.newModal.style.display = 'flex';
         });
@@ -175,17 +172,13 @@ class Editor {
         document.getElementById('menu-save').addEventListener('click', () => {
             this.exportPNG();
         });
-
-        // Help Menu
         document.getElementById('menu-about').addEventListener('click', () => {
             this.aboutModal.style.display = 'flex';
         });
 
-        // File Input Handler
         document.getElementById('file-input').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = (event) => {
                 const img = new Image();
@@ -197,7 +190,6 @@ class Editor {
             reader.readAsDataURL(file);
         });
 
-        // View Menu -> Zoom Actions
         document.querySelectorAll('[data-zoom]').forEach(item => {
             item.addEventListener('click', () => {
                 const z = parseInt(item.dataset.zoom);
@@ -205,7 +197,13 @@ class Editor {
             });
         });
 
-        // Modal OK button
+        document.querySelectorAll('.theme-opt').forEach(item => {
+            item.addEventListener('click', () => {
+                this.applyTheme(item.dataset.theme);
+                this.saveToStorage();
+            });
+        });
+
         this.modalOkBtn.addEventListener('click', () => {
             const w = parseInt(this.newWidthInput.value);
             const h = parseInt(this.newHeightInput.value);
@@ -214,6 +212,14 @@ class Editor {
                 this.newModal.style.display = 'none';
             }
         });
+    }
+
+    applyTheme(theme) {
+        this.currentTheme = theme;
+        const themeUrl = (theme === 'win95') ? 'src/style.css' : 'src/theme-win31.css';
+        this.themeLink.href = themeUrl;
+        this.appBody.className = `${theme}-bg`;
+        this.statusMsg.innerText = `Theme applied: ${theme}`;
     }
 
     setZoom(z) {
@@ -271,7 +277,7 @@ class Editor {
             this.pixelData[i] = 255;
             this.pixelData[i+1] = 255;
             this.pixelData[i+2] = 255;
-            this.pixelData[i+3] = 255; // Opaque White
+            this.pixelData[i+3] = 255;
         }
     }
 
@@ -303,20 +309,16 @@ class Editor {
         const startG = this.pixelData[index + 1];
         const startB = this.pixelData[index + 2];
         const startA = this.pixelData[index + 3];
-
         if (this.colorsMatch(startR, startG, startB, startA, targetRgb.r, targetRgb.g, targetRgb.b, 255)) return;
-
         const stack = [[startX, startY]];
         while (stack.length > 0) {
             const [x, y] = stack.pop();
             const idx = (y * this.width + x) * 4;
-
             if (this.colorsMatch(this.pixelData[idx], this.pixelData[idx+1], this.pixelData[idx+2], this.pixelData[idx+3], startR, startG, startB, startA)) {
                 this.pixelData[idx] = targetRgb.r;
                 this.pixelData[idx+1] = targetRgb.g;
                 this.pixelData[idx+2] = targetRgb.b;
                 this.pixelData[idx+3] = 255;
-
                 if (x > 0) stack.push([x - 1, y]);
                 if (x < this.width - 1) stack.push([x + 1, y]);
                 if (y > 0) stack.push([x, y - 1]);
@@ -331,7 +333,6 @@ class Editor {
         const sx = (x0 < x1) ? 1 : -1;
         const sy = (y0 < y1) ? 1 : -1;
         let err = dx - dy;
-
         while (true) {
             this.setPixel(x0, y0, color);
             if (x0 === x1 && y0 === y1) break;
@@ -346,7 +347,6 @@ class Editor {
         const maxX = Math.max(x0, x1);
         const minY = Math.min(y0, y1);
         const maxY = Math.max(y0, y1);
-
         if (fillColor) {
             for (let y = minY; y <= maxY; y++) {
                 for (let x = minX; x <= maxX; x++) {
@@ -387,7 +387,7 @@ class Editor {
     }
 
     saveToStorage() {
-        const meta = { width: this.width, height: this.height };
+        const meta = { width: this.width, height: this.height, theme: this.currentTheme };
         localStorage.setItem('pxl95_meta', JSON.stringify(meta));
         localStorage.setItem('pxl95_data', JSON.stringify(Array.from(this.pixelData)));
     }
@@ -399,6 +399,7 @@ class Editor {
             const meta = JSON.parse(metaStr);
             this.width = meta.width;
             this.height = meta.height;
+            this.currentTheme = meta.theme || 'win95';
             this.pixelData = new Uint8ClampedArray(this.width * this.height * 4);
             const arr = JSON.parse(dataStr);
             this.pixelData.set(arr);

@@ -1,0 +1,72 @@
+:root {
+    --win-gray: #c0c0c0;
+    --win-white: #ffffff;
+    --win-shadow-dark: #000000;
+    --win-shadow-light: #808080;
+    --win-blue: #000080;
+    --win-text: #000000;
+}
+
+body.win31-bg {
+    background-color: #000000;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.win95-window {
+    border: 1px solid black;
+    box-shadow: none;
+}
+
+.title-bar {
+    background: #000080;
+    color: white;
+    text-align: center;
+    justify-content: center;
+    border-bottom: 1px solid black;
+}
+
+.title-bar-text {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.title-bar-controls {
+    position: absolute;
+    right: 2px;
+}
+
+.menu-bar {
+    background: white;
+    border-bottom: 1px solid black;
+}
+
+.menu-item {
+    color: black;
+}
+
+.menu-item:hover {
+    background: #000080;
+    color: white;
+}
+
+.toolbar-container {
+    background: #c0c0c0;
+}
+
+.tool-btn {
+    border: 1px solid black;
+    background: white;
+}
+
+.tool-btn.active {
+    background: #c0c0c0;
+    border: 1px solid black;
+}
+
+.status-bar {
+    background: #c0c0c0;
+    border-top: 1px solid black;
+}
