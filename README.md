@@ -16,10 +16,13 @@
 ## ✨ Features
 
 - **Dual-Layer Canvas**: Crystal-clear pixel rendering on the bottom layer with a dynamic UI overlay (grid/cursor) on the top.
-- **Classic Toolset**: Pen, Eraser, Flood Fill, Line Tool, and Rectangle Tool.
+- **Classic Toolset**: Pen, Eraser, Flood Fill, Line Tool, Rectangle Tool, and **Pipette** (Eyedropper).
+- **Advanced Color Management**: 
+    - Toggle between iconic **CGA** and **VGA** palettes.
+    - **Color Swap**: Instantly swap Primary/Secondary colors.
+    - **Custom Mixer**: Open the system color wheel for precise RGB/Hex mixing.
 - **Precision Zoom**: Work at 1x scale or zoom up to 32x.
 - **Undo/Redo**: 10-step action history to safely experiment with your art.
-- **Retro Palettes**: Toggle between the iconic **16-color CGA** and **256-color VGA** palettes.
 - **Auto-Persistence**: Your artwork, canvas size, and theme are automatically saved to your browser's local storage.
 - **PNG Export**: Save your creations as high-quality PNG files.
 
@@ -38,11 +41,14 @@ PXL-95 is a **Progressive Web App**, meaning you can install it directly onto yo
 - **Right Click**: Paint with your **Secondary Color**.
 - **Undo**: `Ctrl/Cmd + Z`
 - **Redo**: `Ctrl/Cmd + Y` or `Ctrl/Cmd + Shift + Z`
+- **Swap Colors**: `X`
 
 ### Managing Colors
 - The **Palette** is located at the bottom.
 - **Left Click** a swatch to set your Primary Color.
 - **Right Click** a swatch to set your Secondary Color.
+- **Custom...**: Click to open the system color picker.
+- **⇄**: Swap primary and secondary colors.
 
 ### Menu Actions
 - **File**: Create a **New** image with custom dimensions, **Open** a local image (PNG/JPG), or **Save** as PNG.

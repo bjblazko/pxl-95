@@ -15,8 +15,9 @@ const CONFIG = {
         vga: [
             "#000000", "#0000AA", "#00AA00", "#00AAAA", "#AA0000", "#AA00AA", "#AA5500", "#AAAAAA",
             "#555555", "#5555FF", "#55FF55", "#55FFFF", "#FF5555", "#FF55FF", "#FFFF55", "#FFFFFF",
-            "#000000", "#141414", "#282828", "#3c3c3c", "#505050", "#646464", "#787878", "#8c8c8c",
-            "#a0a0a0", "#b4b4b4", "#c8c8c8", "#dcdcdc", "#f0f0f0", "#ffffff", "#00007b", "#00009c"
+            // Expanded VGA spectrum
+            "#FF0000", "#FF7F00", "#FFFF00", "#7FFF00", "#00FF00", "#00FF7F", "#00FFFF", "#007FFF",
+            "#0000FF", "#7F00FF", "#FF00FF", "#FF007F", "#7F0000", "#7F3F00", "#7F7F00", "#3F7F00"
         ]
     }
 };
@@ -73,6 +74,10 @@ class Editor {
         
         this.themeLink = document.getElementById('theme-link');
         this.appBody = document.getElementById('app-body');
+        
+        this.colorPicker = document.getElementById('color-picker');
+        this.colorSwapBtn = document.getElementById('color-swap');
+        this.customColorBtn = document.getElementById('custom-color-btn');
     }
 
     initCanvas() {
@@ -116,6 +121,13 @@ class Editor {
             });
         });
 
+        this.colorSwapBtn.addEventListener('click', () => this.swapColors());
+        this.customColorBtn.addEventListener('click', () => this.colorPicker.click());
+        this.colorPicker.addEventListener('input', (e) => {
+            this.primaryColor = e.target.value;
+            this.updateIndicators();
+        });
+
         let isDrawing = false;
         let startX, startY;
 
@@ -129,7 +141,15 @@ class Editor {
                 this.renderOverlay(x, y, isDrawing ? {startX, startY} : null);
                 
                 if (e.type === 'mousedown') {
-                    this.saveState(); // Save before action
+                    if (this.currentTool === 'pipette') {
+                        const color = this.getPixelColor(x, y);
+                        if (e.button === 0) this.primaryColor = color;
+                        else this.secondaryColor = color;
+                        this.updateIndicators();
+                        return;
+                    }
+
+                    this.saveState();
                     isDrawing = true;
                     startX = x;
                     startY = y;
@@ -168,7 +188,6 @@ class Editor {
         window.addEventListener('mouseup', handleMouse);
         this.upperCanvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
-        // Menu Actions
         document.getElementById('menu-new').addEventListener('click', () => {
             this.newModal.style.display = 'flex';
         });
@@ -184,15 +203,15 @@ class Editor {
             this.aboutModal.style.display = 'flex';
         });
 
-        // Key shortcuts
         window.addEventListener('keydown', (e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
-                if (e.shiftKey) this.redo();
-                else this.undo();
+                if (e.shiftKey) this.redo(); else this.undo();
                 e.preventDefault();
             } else if ((e.metaKey || e.ctrlKey) && e.key === 'y') {
                 this.redo();
                 e.preventDefault();
+            } else if (e.key === 'x') {
+                this.swapColors();
             }
         });
 
@@ -202,18 +221,14 @@ class Editor {
             const reader = new FileReader();
             reader.onload = (event) => {
                 const img = new Image();
-                img.onload = () => {
-                    this.loadImageToCanvas(img);
-                };
+                img.onload = () => this.loadImageToCanvas(img);
                 img.src = event.target.result;
             };
             reader.readAsDataURL(file);
         });
 
         document.querySelectorAll('[data-zoom]').forEach(item => {
-            item.addEventListener('click', () => {
-                this.setZoom(parseInt(item.dataset.zoom));
-            });
+            item.addEventListener('click', () => this.setZoom(parseInt(item.dataset.zoom)));
         });
 
         document.querySelectorAll('.theme-opt').forEach(item => {
@@ -233,12 +248,30 @@ class Editor {
         });
     }
 
+    swapColors() {
+        const temp = this.primaryColor;
+        this.primaryColor = this.secondaryColor;
+        this.secondaryColor = temp;
+        this.updateIndicators();
+    }
+
+    updateIndicators() {
+        this.primaryIndicator.style.backgroundColor = this.primaryColor;
+        this.secondaryIndicator.style.backgroundColor = this.secondaryColor;
+    }
+
+    getPixelColor(x, y) {
+        const index = (y * this.width + x) * 4;
+        const r = this.pixelData[index];
+        const g = this.pixelData[index + 1];
+        const b = this.pixelData[index + 2];
+        return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+    }
+
     saveState() {
         this.history.push(new Uint8ClampedArray(this.pixelData));
-        if (this.history.length > CONFIG.historyLimit) {
-            this.history.shift();
-        }
-        this.redoStack = []; // Clear redo on action
+        if (this.history.length > CONFIG.historyLimit) this.history.shift();
+        this.redoStack = [];
     }
 
     undo() {
@@ -247,7 +280,6 @@ class Editor {
         this.pixelData.set(this.history.pop());
         this.draw();
         this.saveToStorage();
-        this.statusMsg.innerText = "Undo performed.";
     }
 
     redo() {
@@ -256,15 +288,12 @@ class Editor {
         this.pixelData.set(this.redoStack.pop());
         this.draw();
         this.saveToStorage();
-        this.statusMsg.innerText = "Redo performed.";
     }
 
     applyTheme(theme) {
         this.currentTheme = theme;
-        const themeUrl = `src/theme-${theme}.css`;
-        this.themeLink.href = themeUrl;
+        this.themeLink.href = `src/theme-${theme}.css`;
         this.appBody.className = `${theme}-bg`;
-        this.statusMsg.innerText = `Theme applied: ${theme}`;
     }
 
     setZoom(z) {
@@ -272,31 +301,26 @@ class Editor {
         this.zoomSelect.value = z;
         this.updateCanvasSize();
         this.draw();
-        this.statusMsg.innerText = `Zoom set to ${z}x (${z*100}%).`;
     }
 
     createNewImage(w, h) {
-        this.saveState(); // Allow undo of clearing
-        this.width = w;
-        this.height = h;
+        this.saveState();
+        this.width = w; this.height = h;
         this.pixelData = new Uint8ClampedArray(w * h * 4);
         this.clearCanvas();
         this.initCanvas();
         this.updateCanvasSize();
         this.draw();
         this.saveToStorage();
-        this.statusMsg.innerText = `New ${w}x${h} image created.`;
     }
 
     loadImageToCanvas(img) {
         this.saveState();
-        const w = img.naturalWidth;
-        const h = img.naturalHeight;
+        const w = img.naturalWidth; const h = img.naturalHeight;
         if (w > 512 || h > 512) {
-            if (!confirm(`This image is ${w}x${h}. Large images may slow down the editor. Continue?`)) return;
+            if (!confirm(`This image is ${w}x${h}. Continue?`)) return;
         }
-        this.width = w;
-        this.height = h;
+        this.width = w; this.height = h;
         this.initCanvas();
         this.offscreenCtx.clearRect(0, 0, w, h);
         this.offscreenCtx.drawImage(img, 0, 0);
@@ -305,26 +329,21 @@ class Editor {
         this.updateCanvasSize();
         this.draw();
         this.saveToStorage();
-        this.statusMsg.innerText = `Loaded ${w}x${h} image.`;
     }
 
     updateCanvasSize() {
         const sizeW = this.width * this.zoom;
         const sizeH = this.height * this.zoom;
-        this.lowerCanvas.width = sizeW;
-        this.lowerCanvas.height = sizeH;
-        this.upperCanvas.width = sizeW;
-        this.upperCanvas.height = sizeH;
+        this.lowerCanvas.width = sizeW; this.lowerCanvas.height = sizeH;
+        this.upperCanvas.width = sizeW; this.upperCanvas.height = sizeH;
         this.container.style.width = `${sizeW}px`;
         this.container.style.height = `${sizeH}px`;
     }
 
     clearCanvas() {
         for (let i = 0; i < this.pixelData.length; i += 4) {
-            this.pixelData[i] = 255;
-            this.pixelData[i+1] = 255;
-            this.pixelData[i+2] = 255;
-            this.pixelData[i+3] = 255;
+            this.pixelData[i] = 255; this.pixelData[i+1] = 255;
+            this.pixelData[i+2] = 255; this.pixelData[i+3] = 255;
         }
     }
 
@@ -336,17 +355,14 @@ class Editor {
             swatch.className = 'color-swatch';
             swatch.style.backgroundColor = color;
             swatch.addEventListener('mousedown', (e) => {
-                if (e.button === 0) {
-                    this.primaryColor = color;
-                    this.primaryIndicator.style.backgroundColor = color;
-                } else if (e.button === 2) {
-                    this.secondaryColor = color;
-                    this.secondaryIndicator.style.backgroundColor = color;
-                }
+                if (e.button === 0) this.primaryColor = color;
+                else if (e.button === 2) this.secondaryColor = color;
+                this.updateIndicators();
             });
             swatch.addEventListener('contextmenu', (e) => e.preventDefault());
             this.paletteGrid.appendChild(swatch);
         });
+        this.updateIndicators();
     }
 
     floodFill(startX, startY, targetColorHex) {
@@ -362,10 +378,8 @@ class Editor {
             const [x, y] = stack.pop();
             const idx = (y * this.width + x) * 4;
             if (this.colorsMatch(this.pixelData[idx], this.pixelData[idx+1], this.pixelData[idx+2], this.pixelData[idx+3], startR, startG, startB, startA)) {
-                this.pixelData[idx] = targetRgb.r;
-                this.pixelData[idx+1] = targetRgb.g;
-                this.pixelData[idx+2] = targetRgb.b;
-                this.pixelData[idx+3] = 255;
+                this.pixelData[idx] = targetRgb.r; this.pixelData[idx+1] = targetRgb.g;
+                this.pixelData[idx+2] = targetRgb.b; this.pixelData[idx+3] = 255;
                 if (x > 0) stack.push([x - 1, y]);
                 if (x < this.width - 1) stack.push([x + 1, y]);
                 if (y > 0) stack.push([x, y - 1]);
@@ -375,10 +389,8 @@ class Editor {
     }
 
     drawLine(x0, y0, x1, y1, color) {
-        const dx = Math.abs(x1 - x0);
-        const dy = Math.abs(y1 - y0);
-        const sx = (x0 < x1) ? 1 : -1;
-        const sy = (y0 < y1) ? 1 : -1;
+        const dx = Math.abs(x1 - x0); const dy = Math.abs(y1 - y0);
+        const sx = (x0 < x1) ? 1 : -1; const sy = (y0 < y1) ? 1 : -1;
         let err = dx - dy;
         while (true) {
             this.setPixel(x0, y0, color);
@@ -390,34 +402,26 @@ class Editor {
     }
 
     drawRect(x0, y0, x1, y1, strokeColor, fillColor) {
-        const minX = Math.min(x0, x1);
-        const maxX = Math.max(x0, x1);
-        const minY = Math.min(y0, y1);
-        const maxY = Math.max(y0, y1);
+        const minX = Math.min(x0, x1); const maxX = Math.max(x0, x1);
+        const minY = Math.min(y0, y1); const maxY = Math.max(y0, y1);
         if (fillColor) {
             for (let y = minY; y <= maxY; y++) {
-                for (let x = minX; x <= maxX; x++) {
-                    this.setPixel(x, y, fillColor);
-                }
+                for (let x = minX; x <= maxX; x++) this.setPixel(x, y, fillColor);
             }
         }
         for (let x = minX; x <= maxX; x++) {
-            this.setPixel(x, minY, strokeColor);
-            this.setPixel(x, maxY, strokeColor);
+            this.setPixel(x, minY, strokeColor); this.setPixel(x, maxY, strokeColor);
         }
         for (let y = minY; y <= maxY; y++) {
-            this.setPixel(minX, y, strokeColor);
-            this.setPixel(maxX, y, strokeColor);
+            this.setPixel(minX, y, strokeColor); this.setPixel(maxX, y, strokeColor);
         }
     }
 
     setPixel(x, y, hexColor) {
         const index = (y * this.width + x) * 4;
         const rgb = this.hexToRgb(hexColor);
-        this.pixelData[index] = rgb.r;
-        this.pixelData[index+1] = rgb.g;
-        this.pixelData[index+2] = rgb.b;
-        this.pixelData[index+3] = 255;
+        this.pixelData[index] = rgb.r; this.pixelData[index+1] = rgb.g;
+        this.pixelData[index+2] = rgb.b; this.pixelData[index+3] = 255;
     }
 
     colorsMatch(r1, g1, b1, a1, r2, g2, b2, a2) {
@@ -444,8 +448,7 @@ class Editor {
         const dataStr = localStorage.getItem('pxl95_data');
         if (metaStr && dataStr) {
             const meta = JSON.parse(metaStr);
-            this.width = meta.width;
-            this.height = meta.height;
+            this.width = meta.width; this.height = meta.height;
             this.currentTheme = meta.theme || 'win95';
             this.pixelData = new Uint8ClampedArray(this.width * this.height * 4);
             const arr = JSON.parse(dataStr);
@@ -479,13 +482,11 @@ class Editor {
             this.upperCtx.beginPath();
             for (let i = 0; i <= this.width; i++) {
                 const pos = i * this.zoom;
-                this.upperCtx.moveTo(pos, 0);
-                this.upperCtx.lineTo(pos, this.upperCanvas.height);
+                this.upperCtx.moveTo(pos, 0); this.upperCtx.lineTo(pos, this.upperCanvas.height);
             }
             for (let i = 0; i <= this.height; i++) {
                 const pos = i * this.zoom;
-                this.upperCtx.moveTo(0, pos);
-                this.upperCtx.lineTo(this.upperCanvas.width, pos);
+                this.upperCtx.moveTo(0, pos); this.upperCtx.lineTo(this.upperCanvas.width, pos);
             }
             this.upperCtx.stroke();
         }

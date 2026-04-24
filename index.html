@@ -107,6 +107,12 @@
                             <rect x="4" y="5" width="8" height="6" fill="#C0C0C0" stroke="#808080" />
                         </svg>
                     </button>
+                    <button class="tool-btn" data-tool="pipette" title="Pipette (I)">
+                        <svg class="icon-svg" viewBox="0 0 16 16">
+                            <path d="M12 2 L14 4 L6 12 L2 14 L4 10 Z" fill="#fff" stroke="black" />
+                            <rect x="3" y="11" width="3" height="3" fill="#000" />
+                        </svg>
+                    </button>
                 </div>
                 <div class="tool-options" id="tool-options">
                     <div class="rect-option active" data-mode="outline" title="Outline Only">
@@ -136,8 +142,12 @@
                     <div class="color-indicators">
                         <div class="color-indicator secondary" id="secondary-color"></div>
                         <div class="color-indicator primary" id="primary-color"></div>
+                        <button id="color-swap" title="Swap Colors (X)">⇄</button>
                     </div>
-                    <div class="palette-grid" id="palette-grid"></div>
+                    <div class="palette-grid-container">
+                        <div class="palette-grid" id="palette-grid"></div>
+                        <button id="custom-color-btn" title="Pick Custom Color">Custom...</button>
+                    </div>
                 </div>
             </div>
 
@@ -160,7 +170,7 @@
         </footer>
     </div>
 
-    <!-- New Image Modal -->
+    <!-- Modals -->
     <div id="new-modal" class="modal-overlay" style="display: none;">
         <div class="win95-window modal-window">
             <div class="title-bar">
@@ -187,7 +197,6 @@
         </div>
     </div>
 
-    <!-- About Modal -->
     <div id="about-modal" class="modal-overlay" style="display: none;">
         <div class="win95-window modal-window about-window">
             <div class="title-bar">
@@ -201,7 +210,7 @@
                     <img src="src/logo.svg" alt="icon" class="about-icon">
                     <div class="about-title">
                         <strong>PXL-95 Pixel Editor</strong><br>
-                        Version 1.2.0 (2026)
+                        Version 1.3.0 (2026)
                     </div>
                 </div>
                 <div class="about-body inset-field">
@@ -219,6 +228,7 @@
         </div>
     </div>
 
+    <input type="color" id="color-picker" style="display: none;">
     <script src="src/app.js"></script>
     <script>
         if ('serviceWorker' in navigator) {

@@ -22,10 +22,10 @@ This document outlines the behavior and technical requirements of PXL-95 using B
 **When** the user performs a left-click on the canvas at coordinates (10, 10)  
 **Then** the pixel at (10, 10) in the data buffer must be updated to RGBA(0, 0, 0, 255).
 
-### 2.2 Pen Tool (Secondary Action)
-**Given** the "Pen" tool is selected and the Secondary color is set to White  
-**When** the user performs a right-click on the canvas at (10, 10)  
-**Then** the pixel at (10, 10) in the data buffer must be updated to RGBA(255, 255, 255, 255).
+### 2.2 Pipette Tool
+**Given** the "Pipette" tool is selected  
+**When** the user left-clicks a pixel with the color Red on the canvas  
+**Then** the "Primary Color" indicator must update to Red.
 
 ### 2.3 Eraser Tool
 **Given** a pixel at (5, 5) has a non-zero alpha value  
@@ -38,44 +38,36 @@ This document outlines the behavior and technical requirements of PXL-95 using B
 **Then** all 16 white pixels must change to Red  
 **And** the black border pixels must remain unchanged.
 
-### 2.5 Line Tool (Preview)
-**Given** the "Line" tool is selected  
-**When** the user clicks and drags from (0, 0) toward (10, 10)  
-**Then** a preview line must be rendered on the **Upper Canvas** overlay  
-**And** the actual pixel data on the **Lower Canvas** must not change until the mouse is released.
-
-### 2.6 Line Tool (Commit)
+### 2.5 Line Tool (Commit)
 **Given** the "Line" tool is selected  
 **When** the user releases the mouse at (10, 10) after starting at (0, 0)  
-**Then** the **Lower Canvas** data buffer must be updated with pixels forming a line between (0, 0) and (10, 10) using Bresenham's algorithm.
+**Then** the **Lower Canvas** data buffer must be updated with pixels forming a line between (0, 0) and (10, 10).
 
 ## 3. Palette & Color Management
 
 ### 3.1 Color Selection
 **Given** the palette grid is displayed  
 **When** the user left-clicks a color swatch  
-**Then** the "Primary Color" indicator must update to that color  
-**And** subsequent Pen actions with the left mouse button must use this color.
+**Then** the "Primary Color" indicator must update to that color.
 
-### 3.2 Palette Switching
-**Given** the "CGA" palette is currently active  
-**When** the user clicks the "VGA" tab  
-**Then** the color swatches in the grid must update to the VGA color set  
-**And** the currently selected Primary/Secondary colors should remain unchanged.
+### 3.2 Color Swapping
+**Given** the user presses the 'X' key or clicks the "⇄" button  
+**When** Primary is Black and Secondary is White  
+**Then** Primary must become White and Secondary must become Black.
+
+### 3.3 Custom Color Mixer
+**Given** the user clicks "Custom..."  
+**When** the user selects a new color from the system dialog  
+**Then** the "Primary Color" must update to the chosen color.
 
 ## 4. Persistence & Export
 
-### 4.1 LocalStorage Persistence
-**Given** the user has made changes to the canvas  
-**When** the user releases the mouse button (ending a stroke)  
-**Then** the entire pixel data buffer must be serialized and saved to `localStorage` under the key `pxl95_data`.
-
-### 4.2 Session Recovery
+### 4.1 Session Recovery
 **Given** a previously saved session exists in `localStorage`  
 **When** the user refreshes the page or reopens the app  
-**Then** the editor must load the data from `localStorage` and render it onto the canvas automatically.
+**Then** the editor must load the data and the theme automatically.
 
-### 4.3 Image Export
+### 4.2 Image Export
 **Given** an artwork is present on the canvas  
 **When** the user selects the "Save" menu item  
 **Then** the browser must trigger a download of a file named `pxl95-artwork.png`.
@@ -87,22 +79,9 @@ This document outlines the behavior and technical requirements of PXL-95 using B
 **When** the user presses `Ctrl+Z` or selects "Undo" from the Edit menu  
 **Then** the pixel data buffer must revert to the state exactly before the last action.
 
-### 5.2 Redo Action
-**Given** the user has performed an Undo action  
-**When** the user presses `Ctrl+Y` or selects "Redo" from the Edit menu  
-**Then** the pixel data buffer must re-apply the action that was undone.
-
 ## 6. Theme Engine
 
 ### 6.1 Theme Switching
 **Given** the "Windows 95" theme is active  
 **When** the user selects "Windows 3.1" from the Look and feel menu  
-**Then** the application stylesheet must change to `theme-win31.css`  
-**And** the UI must immediately reflect the high-contrast aesthetic without a page reload.
-
-## 7. PWA (Progressive Web App)
-
-### 5.1 Offline Availability
-**Given** the Service Worker is registered and assets are cached  
-**When** the user attempts to access the application without an internet connection  
-**Then** the application must load and remain fully functional.
+**Then** the UI must immediately reflect the high-contrast aesthetic.

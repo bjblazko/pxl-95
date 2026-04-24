@@ -18,30 +18,20 @@ PXL-95 is a web-based, framework-less pixel art editor inspired by 1990s paint a
 
 ## 4. Solution Strategy
 *   **Layered Canvas**: Two canvases decouple raw pixel data (`#canvas-lower`) from UI overlays (`#canvas-upper`).
-*   **CSS Split Architecture**: Decouples static layout (`layout.css`) from visual styling (`theme-*.css`) to allow seamless theme switching.
-*   **State History**: Maintains a fixed-size stack of `Uint8ClampedArray` snapshots for Undo/Redo.
-*   **PWA**: Root-level Service Worker for full site caching and offline support.
+*   **CSS Split Architecture**: Decouples static layout (`layout.css`) from visual styling (`theme-*.css`).
+*   **Native API Integration**: Uses the standard `<input type="color">` for the custom mixer and `FileReader` for image loading.
+*   **State History**: Maintains a fixed-size stack of snapshots for Undo/Redo.
 
 ## 5. Building Block View
 
 ### 5.1 Level 1: Main Components
 *   **Editor (Controller)**: Orchestrates events, tools, and history stack.
-*   **Theme Engine**: Swaps CSS link references dynamically based on user selection.
-*   **Tool Engine**: Pure functions for pixel manipulation (Pen, Line, Rect, Fill).
-*   **Persistence Layer**: Syncs buffer and metadata to `LocalStorage`.
-
-## 6. Concepts
-
-### 6.1 State Persistence & History
-The app uses a 10-step history stack. Each step is a full snapshot of the pixel buffer. This is optimized for standard pixel art sizes (64x64 to 256x256).
-
-### 6.2 Rendering
-Direct `putImageData` is used for the artwork layer, while standard Canvas Path API is used for the overlay (grid/cursor) to avoid destructive edits to the artwork buffer.
+*   **Theme Engine**: Swaps CSS link references dynamically.
+*   **Tool Engine**: Pure functions for pixel manipulation, including the **Pipette** color extraction logic.
+*   **Persistence Layer**: Syncs buffer and metadata (theme, size) to `LocalStorage`.
 
 ## 9. Architecture Decisions
-*   **ADR 1: Dual Canvas**: Decoupled UI artifacts from artwork data.
-*   **ADR 2: Layout/Theme Separation**: Ensured UI stability during look-and-feel changes.
-*   **ADR 3: Root Service Worker**: Ensures correct scope for the PWA.
+*   **ADR 4: Native Color Picker**: Decided to use the native browser color picker for the "Custom..." feature to maintain zero-dependencies while providing a full color wheel and RGB input.
 
 ## 12. Glossary
 *   **CGA/VGA**: Standard color palettes from the 80s/90s.
