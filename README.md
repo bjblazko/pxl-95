@@ -1,6 +1,8 @@
 # 🖌️ PXL-95: Retro Pixel Editor
 
 ## 📺 See it in action
+[![Launch PXL-95](https://img.shields.io/badge/🚀_Launch-App-blue?style=for-the-badge&logo=rocket)](https://bjblazko.github.io/pxl-95/)
+
 ![PXL-95 Screenshot](./docs/screenshot.png)
 
 **PXL-95** is a lightweight, web-based pixel art editor inspired by the classic Windows 95 era and ZSoft's *PC Paintbrush*. It focuses on pure, grid-based pixel manipulation with a nostalgic "gray-box" aesthetic.
