@@ -167,8 +167,27 @@ class Editor {
         document.getElementById('menu-new').addEventListener('click', () => {
             this.newModal.style.display = 'flex';
         });
+        document.getElementById('menu-open').addEventListener('click', () => {
+            document.getElementById('file-input').click();
+        });
         document.getElementById('menu-save').addEventListener('click', () => {
             this.exportPNG();
+        });
+
+        // File Input Handler
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    this.loadImageToCanvas(img);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
         });
 
         // View Menu -> Zoom Actions
@@ -208,6 +227,31 @@ class Editor {
         this.draw();
         this.saveToStorage();
         this.statusMsg.innerText = `New ${w}x${h} image created.`;
+    }
+
+    loadImageToCanvas(img) {
+        const w = img.naturalWidth;
+        const h = img.naturalHeight;
+        
+        // Safety check for very large images in a pixel editor
+        if (w > 512 || h > 512) {
+            if (!confirm(`This image is ${w}x${h}. Large images may slow down the editor. Continue?`)) return;
+        }
+
+        this.width = w;
+        this.height = h;
+        this.initCanvas();
+        
+        // Draw image to offscreen to get its data
+        this.offscreenCtx.clearRect(0, 0, w, h);
+        this.offscreenCtx.drawImage(img, 0, 0);
+        const imageData = this.offscreenCtx.getImageData(0, 0, w, h);
+        this.pixelData = imageData.data;
+
+        this.updateCanvasSize();
+        this.draw();
+        this.saveToStorage();
+        this.statusMsg.innerText = `Loaded ${w}x${h} image.`;
     }
 
     updateCanvasSize() {
