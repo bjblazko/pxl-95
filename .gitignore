@@ -1,0 +1,13 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Gemini/IDE files
+.gemini/
+plans/
+docs/specs/
+
+# Local Dev
+node_modules/
+dist/
+*.log
