@@ -1,0 +1,139 @@
+/* Motif / CDE Visual Theme */
+:root {
+    --win-gray: #aeade2; /* Classic Motif purple-gray */
+    --win-white: #dfdfff;
+    --win-shadow-dark: #706f9b;
+    --win-shadow-light: #8e8db6;
+    --win-blue: #706f9b; /* Title bar purple */
+    --win-text: #000000;
+}
+
+body.motif-bg {
+    background-color: #5c5c8a; /* Deep purple-blue desktop */
+}
+
+/* Motif windows have very thick, flat bevels */
+.win95-window {
+    border: 3px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+    background-color: var(--win-gray);
+    box-shadow: none;
+}
+
+.title-bar {
+    background-color: var(--win-blue);
+    color: white;
+    font-weight: bold;
+    height: 24px;
+    border: 1px solid black;
+    margin: 2px;
+    justify-content: center; /* Motif often centered title text */
+    position: relative;
+}
+
+.title-bar-text {
+    text-transform: none;
+    letter-spacing: 1px;
+}
+
+.title-bar-controls {
+    position: absolute;
+    right: 4px;
+}
+
+/* Motif close button was a square with a smaller square inside */
+.title-bar-controls button {
+    background-color: var(--win-gray);
+    border: 2px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+    width: 18px;
+    height: 18px;
+}
+
+.menu-bar {
+    background-color: var(--win-gray);
+    border-bottom: 2px solid var(--win-shadow-dark);
+    padding: 2px 4px;
+}
+
+.menu-item:hover {
+    background-color: var(--win-shadow-dark);
+    color: white;
+}
+
+.dropdown, .side-dropdown {
+    background-color: var(--win-gray);
+    border: 2px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+}
+
+.menu-sub-item:hover {
+    background-color: var(--win-shadow-dark);
+    color: white;
+}
+
+.toolbar-container {
+    background-color: var(--win-gray);
+    border-right: 2px solid var(--win-shadow-dark);
+    padding: 6px;
+}
+
+.tool-btn {
+    background-color: var(--win-gray);
+    border: 2px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+    margin-bottom: 2px;
+}
+
+.tool-btn.active {
+    border-color: var(--win-shadow-dark) var(--win-white) var(--win-white) var(--win-shadow-dark);
+    background-color: var(--win-shadow-light);
+}
+
+.inset-field {
+    border: 2px solid;
+    border-color: var(--win-shadow-dark) var(--win-white) var(--win-white) var(--win-shadow-dark);
+    background-color: white;
+}
+
+.canvas-container {
+    border: 2px solid black;
+}
+
+.palette-tab {
+    background-color: var(--win-gray);
+    border: 2px solid;
+    border-bottom: none;
+    border-color: var(--win-white) var(--win-shadow-dark) transparent var(--win-white);
+}
+
+.palette-tab.active {
+    background-color: var(--win-white);
+    font-weight: bold;
+}
+
+.palette-display {
+    border: 2px solid;
+    border-color: var(--win-shadow-dark) var(--win-white) var(--win-white) var(--win-shadow-dark);
+}
+
+.status-bar {
+    background-color: var(--win-gray);
+    border-top: 2px solid var(--win-shadow-dark);
+}
+
+.status-field {
+    border: 1px solid var(--win-shadow-dark);
+}
+
+/* Buttons in Motif were very "slab-like" */
+.modal-buttons button {
+    background-color: var(--win-gray);
+    border: 2px solid;
+    border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
+    font-weight: bold;
+}
+
+.modal-buttons button:active {
+    border-color: var(--win-shadow-dark) var(--win-white) var(--win-white) var(--win-shadow-dark);
+}

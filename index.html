@@ -11,6 +11,57 @@
     <link rel="manifest" href="manifest.json">
 </head>
 <body class="win95-bg" id="app-body">
+    <!-- MacOS Global Menu Bar (Visible only in macOS 8 theme) -->
+    <div id="macos-menu-bar" class="macos-menu-bar">
+        <div class="menu-item-container">
+            <div class="menu-item apple-menu"></div>
+            <div class="dropdown">
+                <div class="menu-sub-item cmd-about">About PXL-95...</div>
+            </div>
+        </div>
+        <div class="menu-item-container">
+            <div class="menu-item">File</div>
+            <div class="dropdown">
+                <div class="menu-sub-item cmd-new">New...</div>
+                <div class="menu-sub-item cmd-open">Open...</div>
+                <div class="menu-sub-item cmd-save">Save</div>
+            </div>
+        </div>
+        <div class="menu-item-container">
+            <div class="menu-item">Edit</div>
+            <div class="dropdown">
+                <div class="menu-sub-item cmd-undo">Undo</div>
+                <div class="menu-sub-item cmd-redo">Redo</div>
+            </div>
+        </div>
+        <div class="menu-item-container">
+            <div class="menu-item">View</div>
+            <div class="dropdown">
+                <div class="menu-sub-item-container">
+                    <div class="menu-sub-item">Zoom</div>
+                    <div class="side-dropdown">
+                        <div class="menu-sub-item" data-zoom="1">100% (1x)</div>
+                        <div class="menu-sub-item" data-zoom="2">200% (2x)</div>
+                        <div class="menu-sub-item" data-zoom="4">400% (4x)</div>
+                        <div class="menu-sub-item" data-zoom="8">800% (8x)</div>
+                        <div class="menu-sub-item" data-zoom="16">1600% (16x)</div>
+                        <div class="menu-sub-item" data-zoom="32">3200% (32x)</div>
+                    </div>
+                </div>
+                <div class="menu-sub-item-container">
+                    <div class="menu-sub-item">Look and feel</div>
+                    <div class="side-dropdown">
+                        <div class="menu-sub-item theme-opt" data-theme="motif">Motif (CDE)</div>
+                        <div class="menu-sub-item theme-opt" data-theme="macos8">MacOS 8 (Platinum)</div>
+                        <div class="menu-sub-item theme-opt" data-theme="win95">Windows 95</div>
+                        <div class="menu-sub-item theme-opt" data-theme="win31">Windows 3.1</div>
+                        <div class="menu-sub-item theme-opt" data-theme="haiku">Haiku / BeOS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="win95-window main-window">
         <div class="title-bar">
             <div class="title-bar-text">
@@ -28,9 +79,9 @@
             <div class="menu-item-container">
                 <div class="menu-item"><u>F</u>ile</div>
                 <div class="dropdown">
-                    <div class="menu-sub-item" id="menu-new"><u>N</u>ew...</div>
-                    <div class="menu-sub-item" id="menu-open"><u>O</u>pen...</div>
-                    <div class="menu-sub-item" id="menu-save"><u>S</u>ave</div>
+                    <div class="menu-sub-item cmd-new"><u>N</u>ew...</div>
+                    <div class="menu-sub-item cmd-open"><u>O</u>pen...</div>
+                    <div class="menu-sub-item cmd-save"><u>S</u>ave</div>
                 </div>
             </div>
             <input type="file" id="file-input" style="display: none;" accept="image/*">
@@ -51,6 +102,8 @@
                     <div class="menu-sub-item-container">
                         <div class="menu-sub-item"><u>L</u>ook and feel</div>
                         <div class="side-dropdown">
+                            <div class="menu-sub-item theme-opt" data-theme="motif">Motif (CDE)</div>
+                        <div class="menu-sub-item theme-opt" data-theme="macos8">MacOS 8 (Platinum)</div>
                             <div class="menu-sub-item theme-opt" data-theme="win95">Windows 95</div>
                             <div class="menu-sub-item theme-opt" data-theme="win31">Windows 3.1</div>
                             <div class="menu-sub-item theme-opt" data-theme="haiku">Haiku / BeOS</div>
@@ -61,14 +114,14 @@
             <div class="menu-item-container">
                 <div class="menu-item"><u>E</u>dit</div>
                 <div class="dropdown">
-                    <div class="menu-sub-item" id="menu-undo"><u>U</u>ndo</div>
-                    <div class="menu-sub-item" id="menu-redo"><u>R</u>edo</div>
+                    <div class="menu-sub-item cmd-undo"><u>U</u>ndo</div>
+                    <div class="menu-sub-item cmd-redo"><u>R</u>edo</div>
                 </div>
             </div>
             <div class="menu-item-container">
                 <div class="menu-item"><u>H</u>elp</div>
                 <div class="dropdown">
-                    <div class="menu-sub-item" id="menu-about"><u>A</u>bout PXL-95...</div>
+                    <div class="menu-sub-item cmd-about"><u>A</u>bout PXL-95...</div>
                 </div>
             </div>
         </div>

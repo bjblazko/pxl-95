@@ -1,0 +1,151 @@
+/* MacOS 8 Platinum Visual Theme */
+:root {
+    --win-gray: #CCCCCC;
+    --win-white: #EEEEEE;
+    --win-shadow-dark: #666666;
+    --win-shadow-light: #999999;
+    --win-blue: #333366; /* Charcoal */
+    --win-text: #000000;
+    --platinum-bg: #CCCCCC;
+    --platinum-border: #666666;
+    --platinum-highlight: #FFFFFF;
+}
+
+body.macos8-bg {
+    background-color: #336699; /* Classic Mac Desktop Blue */
+    display: block; /* Override center flex for better menu positioning */
+}
+
+/* Global Menu Bar Logic */
+body.macos8-bg .macos-menu-bar {
+    display: flex;
+}
+
+body.macos8-bg .win95-window .menu-bar {
+    display: none;
+}
+
+body.macos8-bg .main-window {
+    margin-top: 40px; /* Space for the top bar */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* MacOS Menu Items Styles (Active Theme) */
+.macos-menu-bar .menu-item:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+.macos-menu-bar .dropdown {
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    border-radius: 0 0 3px 3px;
+}
+
+.macos-menu-bar .menu-sub-item {
+    color: #000000;
+    padding: 2px 20px 2px 10px;
+}
+
+.macos-menu-bar .menu-sub-item:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+/* Platinum Window */
+body.macos8-bg .win95-window {
+    border: 1px solid #000000;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+    background-color: var(--platinum-bg);
+}
+
+body.macos8-bg .title-bar {
+    background: linear-gradient(to bottom, #FFFFFF 0%, #CCCCCC 10%, #CCCCCC 90%, #999999 100%);
+    background-image: repeating-linear-gradient(0deg, #CCCCCC, #CCCCCC 1px, #EEEEEE 1px, #EEEEEE 2px);
+    border-bottom: 1px solid #000000;
+    color: #000000;
+    padding: 2px 5px;
+    height: 22px;
+}
+
+body.macos8-bg .title-bar-text {
+    font-family: "Geneva", "Helvetica", sans-serif;
+    font-weight: bold;
+    color: #000000;
+    background: var(--platinum-bg);
+    padding: 0 10px;
+}
+
+/* Control buttons in macOS 8 were distinctive */
+body.macos8-bg .title-bar-controls button {
+    width: 13px;
+    height: 13px;
+    background-color: var(--platinum-bg);
+    border: 1px solid #666666;
+    margin-left: 3px;
+    position: relative;
+    border-radius: 0;
+}
+
+/* Close button on left? Actually macOS 8 had it on left. */
+body.macos8-bg .title-bar {
+    flex-direction: row-reverse;
+}
+
+body.macos8-bg .title-bar-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+body.macos8-bg .title-bar-controls {
+    flex-direction: row-reverse; /* Re-reverse to keep order consistent or match Mac */
+}
+
+/* Platinum Bevels */
+body.macos8-bg .tool-btn {
+    border: 1px solid #666666;
+    background: linear-gradient(135deg, #FFFFFF, #CCCCCC);
+    border-radius: 2px;
+}
+
+body.macos8-bg .tool-btn.active {
+    background: #999999;
+    border-color: #333333;
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+body.macos8-bg .inset-field, 
+body.macos8-bg .canvas-container,
+body.macos8-bg .palette-display,
+body.macos8-bg .status-field {
+    border: 1px solid #666666;
+    background-color: #FFFFFF;
+}
+
+body.macos8-bg .palette-tab {
+    background: #CCCCCC;
+    border: 1px solid #666666;
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+}
+
+body.macos8-bg .palette-tab.active {
+    background: #FFFFFF;
+    font-weight: bold;
+}
+
+body.macos8-bg .status-bar {
+    background-color: #CCCCCC;
+    border-top: 1px solid #000000;
+}
+
+/* Platinum Modal */
+body.macos8-bg .modal-window {
+    border: 1px solid #000000;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+}

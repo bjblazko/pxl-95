@@ -188,20 +188,20 @@ class Editor {
         window.addEventListener('mouseup', handleMouse);
         this.upperCanvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
-        document.getElementById('menu-new').addEventListener('click', () => {
+        document.querySelectorAll('.cmd-new').forEach(el => el.addEventListener('click', () => {
             this.newModal.style.display = 'flex';
-        });
-        document.getElementById('menu-open').addEventListener('click', () => {
+        }));
+        document.querySelectorAll('.cmd-open').forEach(el => el.addEventListener('click', () => {
             document.getElementById('file-input').click();
-        });
-        document.getElementById('menu-save').addEventListener('click', () => {
+        }));
+        document.querySelectorAll('.cmd-save').forEach(el => el.addEventListener('click', () => {
             this.exportPNG();
-        });
-        document.getElementById('menu-undo').addEventListener('click', () => this.undo());
-        document.getElementById('menu-redo').addEventListener('click', () => this.redo());
-        document.getElementById('menu-about').addEventListener('click', () => {
+        }));
+        document.querySelectorAll('.cmd-undo').forEach(el => el.addEventListener('click', () => this.undo()));
+        document.querySelectorAll('.cmd-redo').forEach(el => el.addEventListener('click', () => this.redo()));
+        document.querySelectorAll('.cmd-about').forEach(el => el.addEventListener('click', () => {
             this.aboutModal.style.display = 'flex';
-        });
+        }));
 
         window.addEventListener('keydown', (e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
