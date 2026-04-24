@@ -40,7 +40,7 @@ body.win95-bg {
     color: white;
 }
 
-.dropdown {
+.dropdown, .side-dropdown {
     background-color: var(--win-gray);
     border: 2px solid;
     border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);

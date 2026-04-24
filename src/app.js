@@ -6,6 +6,7 @@
 const CONFIG = {
     defaultGridSize: 64,
     defaultZoom: 8,
+    historyLimit: 10,
     palettes: {
         cga: [
             "#000000", "#0000AA", "#00AA00", "#00AAAA", "#AA0000", "#AA00AA", "#AA5500", "#AAAAAA",
@@ -31,6 +32,9 @@ class Editor {
         this.secondaryColor = "#FFFFFF";
         this.currentPalette = 'cga';
         this.currentTheme = 'win95';
+        
+        this.history = [];
+        this.redoStack = [];
         
         this.initDOM();
         this.loadFromStorage();
@@ -125,6 +129,7 @@ class Editor {
                 this.renderOverlay(x, y, isDrawing ? {startX, startY} : null);
                 
                 if (e.type === 'mousedown') {
+                    this.saveState(); // Save before action
                     isDrawing = true;
                     startX = x;
                     startY = y;
@@ -163,6 +168,7 @@ class Editor {
         window.addEventListener('mouseup', handleMouse);
         this.upperCanvas.addEventListener('contextmenu', (e) => e.preventDefault());
 
+        // Menu Actions
         document.getElementById('menu-new').addEventListener('click', () => {
             this.newModal.style.display = 'flex';
         });
@@ -172,8 +178,22 @@ class Editor {
         document.getElementById('menu-save').addEventListener('click', () => {
             this.exportPNG();
         });
+        document.getElementById('menu-undo').addEventListener('click', () => this.undo());
+        document.getElementById('menu-redo').addEventListener('click', () => this.redo());
         document.getElementById('menu-about').addEventListener('click', () => {
             this.aboutModal.style.display = 'flex';
+        });
+
+        // Key shortcuts
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
+                if (e.shiftKey) this.redo();
+                else this.undo();
+                e.preventDefault();
+            } else if ((e.metaKey || e.ctrlKey) && e.key === 'y') {
+                this.redo();
+                e.preventDefault();
+            }
         });
 
         document.getElementById('file-input').addEventListener('change', (e) => {
@@ -192,8 +212,7 @@ class Editor {
 
         document.querySelectorAll('[data-zoom]').forEach(item => {
             item.addEventListener('click', () => {
-                const z = parseInt(item.dataset.zoom);
-                this.setZoom(z);
+                this.setZoom(parseInt(item.dataset.zoom));
             });
         });
 
@@ -214,6 +233,32 @@ class Editor {
         });
     }
 
+    saveState() {
+        this.history.push(new Uint8ClampedArray(this.pixelData));
+        if (this.history.length > CONFIG.historyLimit) {
+            this.history.shift();
+        }
+        this.redoStack = []; // Clear redo on action
+    }
+
+    undo() {
+        if (this.history.length === 0) return;
+        this.redoStack.push(new Uint8ClampedArray(this.pixelData));
+        this.pixelData.set(this.history.pop());
+        this.draw();
+        this.saveToStorage();
+        this.statusMsg.innerText = "Undo performed.";
+    }
+
+    redo() {
+        if (this.redoStack.length === 0) return;
+        this.history.push(new Uint8ClampedArray(this.pixelData));
+        this.pixelData.set(this.redoStack.pop());
+        this.draw();
+        this.saveToStorage();
+        this.statusMsg.innerText = "Redo performed.";
+    }
+
     applyTheme(theme) {
         this.currentTheme = theme;
         const themeUrl = `src/theme-${theme}.css`;
@@ -231,6 +276,7 @@ class Editor {
     }
 
     createNewImage(w, h) {
+        this.saveState(); // Allow undo of clearing
         this.width = w;
         this.height = h;
         this.pixelData = new Uint8ClampedArray(w * h * 4);
@@ -243,6 +289,7 @@ class Editor {
     }
 
     loadImageToCanvas(img) {
+        this.saveState();
         const w = img.naturalWidth;
         const h = img.naturalHeight;
         if (w > 512 || h > 512) {

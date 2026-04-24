@@ -1,4 +1,4 @@
-/* Haiku / BeOS Visual Theme */
+/* Haiku / BeOS Visual Theme - Authentic Refinement */
 :root {
     --win-gray: #e8e8e8;
     --win-white: #ffffff;
@@ -6,17 +6,18 @@
     --win-shadow-light: #dcdcdc;
     --win-blue: #336698;
     --win-text: #000000;
-    --haiku-yellow: #ffda00;
+    --haiku-yellow: #ffcb00; /* Official BeOS Yellow */
 }
 
 body.haiku-bg {
-    background-color: #336698; /* Classic blue desktop */
+    background-color: #336698;
 }
 
 .win95-window {
     border: 1px solid #777;
     background-color: var(--win-gray);
     box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    margin-top: 25px; /* Make space for the absolute tab */
 }
 
 /* Haiku's famous yellow tab title bar */
@@ -26,33 +27,62 @@ body.haiku-bg {
     border: 1px solid #777;
     border-bottom: none;
     border-radius: 5px 5px 0 0;
-    width: auto;
+    width: fit-content;
     display: inline-flex;
-    margin-top: -21px; /* Pop up above the window */
-    margin-left: 10px;
-    height: 20px;
-    padding: 0 10px;
-    position: relative;
-    z-index: 10;
+    padding: 2px 8px;
+    height: 22px;
+    position: absolute;
+    top: -23px; /* Sit perfectly on top of the window frame */
+    left: 15px;
+    z-index: 100;
 }
 
 .title-bar-text {
     font-weight: bold;
     font-size: 11px;
+    order: 2; /* Put text in the middle */
+    padding: 0 10px;
 }
 
-/* Align controls inside the tab */
+/* Control positioning */
 .title-bar-controls {
-    margin-left: 10px;
+    display: contents; /* Allow individual buttons to use flex order of parent */
 }
 
-.title-bar-controls button {
-    background: transparent;
+/* Close button - Left side in Haiku */
+.title-bar-controls button[aria-label="Close"] {
+    order: 1;
+    background: #e8e8e8;
+    border: 1px solid #333;
+    width: 12px;
+    height: 12px;
+    position: relative;
+    cursor: pointer;
+}
+
+.title-bar-controls button[aria-label="Close"]::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 6px;
+    height: 6px;
     border: 1px solid #000;
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
-    margin: 0 2px;
+}
+
+/* Zoom/Max button - Right side in Haiku */
+.title-bar-controls button[aria-label="Maximize"] {
+    order: 3;
+    background: #e8e8e8;
+    border: 1px solid #333;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+}
+
+/* Hide Minimize in this simulation if needed, or put it next to Max */
+.title-bar-controls button[aria-label="Minimize"] {
+    display: none;
 }
 
 .menu-bar {
@@ -65,7 +95,7 @@ body.haiku-bg {
     color: white;
 }
 
-.dropdown {
+.dropdown, .side-dropdown {
     background: var(--win-gray);
     border: 1px solid #777;
 }
@@ -79,6 +109,7 @@ body.haiku-bg {
     border-radius: 3px;
     border: 1px solid #ababab;
     background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+    margin-bottom: 1px;
 }
 
 .tool-btn.active {
@@ -98,4 +129,8 @@ body.haiku-bg {
 .status-bar {
     background: var(--win-gray);
     border-top: 1px solid #ababab;
+}
+
+.status-field {
+    border: 1px solid #cbcbcb;
 }
