@@ -361,6 +361,26 @@ canvas {
         height: 44px;
         margin-bottom: 4px;
         cursor: pointer;
+        position: relative; /* Ensure children are relative to this */
+        display: block;
+    }
+
+    .color-indicators .color-indicator {
+        position: absolute;
+        width: 28px;
+        height: 28px;
+    }
+
+    .color-indicators .color-indicator.primary {
+        top: 0;
+        left: 0;
+        z-index: 10;
+    }
+
+    .color-indicators .color-indicator.secondary {
+        bottom: 0;
+        right: 0;
+        z-index: 5;
     }
 
     #custom-color-btn {
@@ -388,8 +408,8 @@ canvas {
     }
 
     .palette-tab {
-        padding: 8px 16px;
-        font-size: 14px;
+        padding: 4px 12px;
+        font-size: 12px;
     }
 
     .zoom-panel {

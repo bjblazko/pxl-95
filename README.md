@@ -23,6 +23,10 @@
     - **Custom Mixer**: Open the system color wheel for precise RGB/Hex mixing.
 - **Precision Zoom**: Work at 1x scale or zoom up to 32x.
 - **Undo/Redo**: 10-step action history to safely experiment with your art.
+- **Mobile & Touch Optimized**: 
+    - **1-Finger Draw**: Natural sketching on iPad/iPhone.
+    - **2-Finger Pan**: Smooth navigation around the canvas.
+    - **Responsive Layout**: Compact bottom-toolbar mode for small screens.
 - **Auto-Persistence**: Your artwork, canvas size, and theme are automatically saved to your browser's local storage.
 - **PNG Export**: Save your creations as high-quality PNG files.
 
@@ -37,18 +41,19 @@ PXL-95 is a **Progressive Web App**, meaning you can install it directly onto yo
 ## 🚀 How to Use
 
 ### Basic Interaction
-- **Left Click**: Paint with your **Primary Color**.
+- **Left Click / 1-Finger Tap**: Paint with your **Primary Color**.
 - **Right Click**: Paint with your **Secondary Color**.
+- **2-Finger Drag**: Pan the canvas (Mobile/Touch).
 - **Undo**: `Ctrl/Cmd + Z`
 - **Redo**: `Ctrl/Cmd + Y` or `Ctrl/Cmd + Shift + Z`
-- **Swap Colors**: `X`
+- **Swap Colors**: `X` or tap the overlapping color indicators.
 
 ### Managing Colors
 - The **Palette** is located at the bottom.
-- **Left Click** a swatch to set your Primary Color.
+- **Left Click / Tap** a swatch to set your Primary Color.
 - **Right Click** a swatch to set your Secondary Color.
 - **Custom...**: Click to open the system color picker.
-- **⇄**: Swap primary and secondary colors.
+- **Tap Indicators**: Swap primary and secondary colors.
 
 ### Menu Actions
 - **File**: Create a **New** image with custom dimensions, **Open** a local image (PNG/JPG), or **Save** as PNG.

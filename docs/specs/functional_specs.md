@@ -51,9 +51,29 @@ This document outlines the behavior and technical requirements of PXL-95 using B
 **Then** the "Primary Color" indicator must update to that color.
 
 ### 3.2 Color Swapping
-**Given** the user presses the 'X' key or clicks the "⇄" button  
+**Given** the user presses the 'X' key or clicks/taps the overlapping color indicator group  
 **When** Primary is Black and Secondary is White  
 **Then** Primary must become White and Secondary must become Black.
+
+## 7. Mobile & Touch Support
+
+### 7.1 Single-Touch Drawing
+**Given** the user is on a touch device  
+**When** the user drags one finger on the canvas  
+**Then** the active tool must draw in real-time  
+**And** browser scrolling must be disabled.
+
+### 7.2 Multi-Touch Panning
+**Given** the user is on a touch device  
+**When** the user drags two fingers on the canvas  
+**Then** the canvas viewport must pan (scroll) accordingly.
+
+### 7.3 Responsive UI
+**Given** the viewport width is less than 768px  
+**When** the app is loaded  
+**Then** the toolbar must move to the bottom  
+**And** the status bar must be hidden  
+**And** touch targets (swatches, buttons) must be enlarged.
 
 ### 3.3 Custom Color Mixer
 **Given** the user clicks "Custom..."  
