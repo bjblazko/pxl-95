@@ -59,7 +59,7 @@ body.ncurses-bg {
     color: var(--pascal-black);
 }
 
-.menu-item:hover {
+.menu-item:hover, .menu-item-container.active .menu-item {
     background-color: var(--pascal-black);
     color: var(--pascal-white);
 }
@@ -74,7 +74,7 @@ body.ncurses-bg {
     color: var(--pascal-black);
 }
 
-.menu-sub-item:hover {
+.menu-sub-item:hover, .menu-sub-item.active {
     background-color: var(--pascal-black);
     color: var(--pascal-white);
 }

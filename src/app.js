@@ -76,8 +76,10 @@ class Editor {
         this.appBody = document.getElementById('app-body');
         
         this.colorPicker = document.getElementById('color-picker');
-        this.colorSwapBtn = document.getElementById('color-swap');
+        this.colorIndicatorsGroup = document.getElementById('color-indicators-group');
         this.customColorBtn = document.getElementById('custom-color-btn');
+
+        this.helpModal = document.getElementById('help-modal');
     }
 
     initCanvas() {
@@ -121,7 +123,7 @@ class Editor {
             });
         });
 
-        this.colorSwapBtn.addEventListener('click', () => this.swapColors());
+        this.colorIndicatorsGroup.addEventListener('click', () => this.swapColors());
         this.customColorBtn.addEventListener('click', () => this.colorPicker.click());
         this.colorPicker.addEventListener('input', (e) => {
             this.primaryColor = e.target.value;
@@ -199,9 +201,14 @@ class Editor {
         }));
         document.querySelectorAll('.cmd-undo').forEach(el => el.addEventListener('click', () => this.undo()));
         document.querySelectorAll('.cmd-redo').forEach(el => el.addEventListener('click', () => this.redo()));
+        document.querySelectorAll('.cmd-help').forEach(el => el.addEventListener('click', () => {
+            this.showHelpGuide();
+        }));
         document.querySelectorAll('.cmd-about').forEach(el => el.addEventListener('click', () => {
             this.aboutModal.style.display = 'flex';
         }));
+
+        this.checkFirstStart();
 
         window.addEventListener('keydown', (e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
@@ -246,6 +253,161 @@ class Editor {
                 this.newModal.style.display = 'none';
             }
         });
+
+        // Touch Support
+        this.initTouchEvents();
+        
+        // Click-based menus for touch/mobile
+        this.initMenuEvents();
+    }
+
+    checkFirstStart() {
+        if (!localStorage.getItem('pxl95_visited')) {
+            this.showHelpGuide();
+            localStorage.setItem('pxl95_visited', 'true');
+        }
+    }
+
+    showHelpGuide() {
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        const desktopHelp = document.getElementById('help-content-desktop');
+        const touchHelp = document.getElementById('help-content-touch');
+        if (desktopHelp) desktopHelp.style.display = isTouch ? 'none' : 'block';
+        if (touchHelp) touchHelp.style.display = isTouch ? 'block' : 'none';
+        if (this.helpModal) this.helpModal.style.display = 'flex';
+    }
+
+    initMenuEvents() {
+        const menuContainers = document.querySelectorAll('.menu-item-container, .menu-sub-item-container');
+        menuContainers.forEach(container => {
+            container.addEventListener('click', (e) => {
+                // Check if it's a touch device or if we want click-to-open
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile || e.pointerType === 'touch' || e.type === 'click') {
+                    e.stopPropagation();
+                    const wasActive = container.classList.contains('active');
+                    
+                    // Close other menus at the same level
+                    const siblings = container.parentElement.querySelectorAll(':scope > .active');
+                    siblings.forEach(s => s.classList.remove('active'));
+
+                    if (!wasActive) {
+                        container.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.menu-item-container.active, .menu-sub-item-container.active').forEach(el => {
+                el.classList.remove('active');
+            });
+        });
+    }
+
+    initTouchEvents() {
+        let isDrawing = false;
+        let isPanning = false;
+        let startX, startY;
+        let lastTouchX, lastTouchY;
+        let lastScrollX, lastScrollY;
+
+        const handleTouch = (e) => {
+            if (e.touches.length === 1) {
+                // Drawing Mode
+                if (isPanning) return;
+                
+                const touch = e.touches[0];
+                const rect = this.upperCanvas.getBoundingClientRect();
+                const x = Math.floor((touch.clientX - rect.left) / this.zoom);
+                const y = Math.floor((touch.clientY - rect.top) / this.zoom);
+
+                if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+                    this.statusCoords.innerText = `${x}, ${y}`;
+                    this.renderOverlay(x, y, isDrawing ? {startX, startY} : null);
+
+                    if (e.type === 'touchstart') {
+                        if (this.currentTool === 'pipette') {
+                            const color = this.getPixelColor(x, y);
+                            this.primaryColor = color;
+                            this.updateIndicators();
+                            return;
+                        }
+
+                        this.saveState();
+                        isDrawing = true;
+                        startX = x;
+                        startY = y;
+                        const color = this.primaryColor;
+                        if (this.currentTool === 'bucket') {
+                            this.floodFill(x, y, color);
+                        } else if (this.currentTool === 'pen') {
+                            this.setPixel(x, y, color);
+                        } else if (this.currentTool === 'eraser') {
+                            this.setPixel(x, y, "#FFFFFF");
+                        }
+                        e.preventDefault(); // Prevent scrolling
+                    } else if (e.type === 'touchmove' && isDrawing) {
+                        const color = this.primaryColor;
+                        if (this.currentTool === 'pen') {
+                            this.setPixel(x, y, color);
+                        } else if (this.currentTool === 'eraser') {
+                            this.setPixel(x, y, "#FFFFFF");
+                        }
+                        this.draw(); // Immediate visual feedback
+                        e.preventDefault(); // Prevent scrolling
+                    }
+                }
+            } else if (e.touches.length === 2) {
+                // Panning Mode
+                if (isDrawing) {
+                    isDrawing = false;
+                }
+                
+                if (e.type === 'touchstart') {
+                    isPanning = true;
+                    lastTouchX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                    lastTouchY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                    lastScrollX = this.container.parentElement.scrollLeft;
+                    lastScrollY = this.container.parentElement.scrollTop;
+                } else if (e.type === 'touchmove' && isPanning) {
+                    const currentX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                    const currentY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                    
+                    const dx = currentX - lastTouchX;
+                    const dy = currentY - lastTouchY;
+                    
+                    this.container.parentElement.scrollLeft = lastScrollX - dx;
+                    this.container.parentElement.scrollTop = lastScrollY - dy;
+                    e.preventDefault();
+                }
+            }
+            
+            if (e.type === 'touchend') {
+                if (isDrawing) {
+                    const touch = e.changedTouches[0];
+                    const rect = this.upperCanvas.getBoundingClientRect();
+                    const x = Math.floor((touch.clientX - rect.left) / this.zoom);
+                    const y = Math.floor((touch.clientY - rect.top) / this.zoom);
+                    const color = this.primaryColor;
+
+                    if (this.currentTool === 'line') {
+                        this.drawLine(startX, startY, x, y, color);
+                    } else if (this.currentTool === 'rect') {
+                        const altColor = this.secondaryColor;
+                        this.drawRect(startX, startY, x, y, color, this.rectMode === 'fill' ? altColor : null);
+                    }
+                    this.saveToStorage();
+                }
+                isDrawing = false;
+                isPanning = false;
+                this.draw();
+            }
+        };
+
+        this.upperCanvas.addEventListener('touchstart', handleTouch, { passive: false });
+        this.upperCanvas.addEventListener('touchmove', handleTouch, { passive: false });
+        this.upperCanvas.addEventListener('touchend', handleTouch, { passive: false });
     }
 
     swapColors() {

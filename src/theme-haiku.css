@@ -90,7 +90,7 @@ body.haiku-bg {
     border-bottom: 1px solid #ababab;
 }
 
-.menu-item:hover {
+.menu-item:hover, .menu-item-container.active .menu-item {
     background: #336698;
     color: white;
 }

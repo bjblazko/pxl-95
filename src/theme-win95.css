@@ -35,7 +35,8 @@ body.win95-bg {
     background-color: var(--win-gray);
 }
 
-.menu-item-container:hover .menu-item {
+.menu-item-container:hover .menu-item,
+.menu-item-container.active .menu-item {
     background-color: var(--win-blue);
     color: white;
 }
@@ -46,7 +47,8 @@ body.win95-bg {
     border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
 }
 
-.menu-sub-item:hover {
+.menu-sub-item:hover,
+.menu-sub-item.active {
     background-color: var(--win-blue);
     color: white;
 }

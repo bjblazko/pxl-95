@@ -56,7 +56,7 @@ body.motif-bg {
     padding: 2px 4px;
 }
 
-.menu-item:hover {
+.menu-item:hover, .menu-item-container.active .menu-item {
     background-color: var(--win-shadow-dark);
     color: white;
 }
@@ -67,7 +67,7 @@ body.motif-bg {
     border-color: var(--win-white) var(--win-shadow-dark) var(--win-shadow-dark) var(--win-white);
 }
 
-.menu-sub-item:hover {
+.menu-sub-item:hover, .menu-sub-item.active {
     background-color: var(--win-shadow-dark);
     color: white;
 }

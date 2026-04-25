@@ -94,7 +94,7 @@ body.amiga-bg {
     border-bottom: 1px solid var(--amiga-black);
 }
 
-.menu-item:hover {
+.menu-item:hover, .menu-item-container.active .menu-item {
     background-color: var(--amiga-blue);
     color: var(--amiga-white);
 }
@@ -105,7 +105,7 @@ body.amiga-bg {
     box-shadow: 2px 2px 0 var(--amiga-black);
 }
 
-.menu-sub-item:hover {
+.menu-sub-item:hover, .menu-sub-item.active {
     background-color: var(--amiga-blue);
     color: var(--amiga-white);
 }

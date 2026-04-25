@@ -65,7 +65,7 @@ body.win31-bg {
     border-bottom: 1px solid black;
 }
 
-.menu-item:hover {
+.menu-item:hover, .menu-item-container.active .menu-item {
     background: #000080;
     color: white;
 }
